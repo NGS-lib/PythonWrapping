@@ -1,0 +1,1 @@
+Tests for the wrapping of the NGS++ library using ctypes (based on http://stackoverflow.com/questions/145270/calling-c-c-from-python)
