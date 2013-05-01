@@ -7,11 +7,11 @@ from ctypes import cdll
 lib = cdll.LoadLibrary('./libfoo.so')
 
 class Foo(object):
-    def __init__(self, toPrint):
-        self.obj = lib.Foo_new(toPrint)
+    def __init__(self, filename, filetype):
+        self.obj = lib.New_parser(filename, filetype)
 
-    def bar(self):
-        lib.Foo_bar(self.obj)
+#    def bar(self):
+#        lib.Foo_bar(self.obj)
 
-f = Foo("bonjour")
-f.bar()
+f = Foo("test.bed", "BED")
+#f.bar()
