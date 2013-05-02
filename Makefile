@@ -4,7 +4,6 @@ NGS_INGLUDE=-Wl,--whole-archive $(NGS_PATH)/libs/libNGS.a -Wl,--no-whole-archive
 CFLAGS=-O3 -Wall -std=c++11 -c -fPIC -lz
 LFLAGS=-shared -Wl,-soname,libfoo.so -lz
 INCLUDE=-I$(NGS_PATH) -I$(NGS_PATH)/NGS
-#INCLUDE=-I/home/cjbparlant/git-clones/class -I/home/cjbparlant/git-clones/class/NGS
 
 .PHONY: all
 all: libfoo.so
