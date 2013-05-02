@@ -1,12 +1,10 @@
 GXX=g++
+NGS_PATH=/home/cjbparlant/git-clones/class
+NGS_INGLUDE=-Wl,--whole-archive $(NGS_PATH)/libs/libNGS.a -Wl,--no-whole-archive
 CFLAGS=-O3 -Wall -std=c++11 -c -fPIC -lz
-LFLAGS=-shared -Wl,-soname,libfoo.so -l/home/cjbparlant/git-clones/class/libs
-INCLUDE=-I/home/cjbparlant/git-clones/class -I/home/cjbparlant/git-clones/class/NGS
-#LIB=/home/cjbparlant/git-clones/class/libs/libNGS.a
-#LIB=Wl,--whole-archive /home/cjbparlant/git-clones/class/libs/libNGS.a -Wl,--no-whole-archive
-LIB=Wl,--whole-archive -lNGS -Wl,--no-whole-archive
-#LIB=Wl,--whole-archive ./libNGS.a -Wl,--no-whole-archive
-ZLIB=-lz
+LFLAGS=-shared -Wl,-soname,libfoo.so -lz
+INCLUDE=-I$(NGS_PATH) -I$(NGS_PATH)/NGS
+#INCLUDE=-I/home/cjbparlant/git-clones/class -I/home/cjbparlant/git-clones/class/NGS
 
 .PHONY: all
 all: libfoo.so
@@ -15,12 +13,12 @@ all: libfoo.so
 clean:
 	rm -f foo.o libfoo.so
 
+.PHONY: exec
+exec: libfoo.so
+	./fooWrapper.py
+
 libfoo.so: foo.o
-	g++ -shared -Wl,-soname,libfoo.so -o libfoo.so foo.o -Wl,--whole-archive /home/cjbparlant/git-clones/class/libs/libNGS.a -Wl,--no-whole-archive
-#	$(GXX) $(LFLAGS) $(ZLIB) -o libfoo.so foo.o $(LIB)   
-#	g++ -shared -Wl,-soname,libfoo.so -o libfoo.so  foo.o
-#	g++ -shared -Wl,-so_install_name -o libfoo.so  foo.o
+	$(GXX) $(LFLAGS) -o libfoo.so foo.o $(NGS_INGLUDE)
 
 foo.o: foo.cpp
 	$(GXX) $(CFLAGS) $(INCLUDE) foo.cpp -o foo.o
-#	g++ -c -fPIC foo.cpp -o foo.o
