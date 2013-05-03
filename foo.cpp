@@ -33,6 +33,13 @@ extern "C" {
 	}
 
 	char* getChr(uBasicNGS* basic) {
+		cout << "Before calling uBasicNGS->getChr()" << endl;
 		return (char*) (basic->getChr().c_str());
 	}
+
+	void setChr(uBasicNGS* basic, char* chr) {
+		cout << "Before calling uBasicNGS->setChr()" << endl;
+		basic->setChr(chr);
+	}
+
 } // End of extern "C"

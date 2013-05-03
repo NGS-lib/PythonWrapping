@@ -20,6 +20,9 @@ class Basic(object):
 	def getChr(self):
 		return c_char_p(lib.getChr(self.obj)).value
 
+	def setChr(self, chr):
+		lib.setChr(self.obj, chr)
+
 # Tests with the parser
 f = Foo("test.bed", "BED")
 if f.eof() == True:
@@ -29,4 +32,6 @@ else:
 
 # Tests with the uBasicNGS
 b = Basic("chr1", 100, 200)
+print b.getChr()
+b.setChr("chr2")
 print b.getChr()
