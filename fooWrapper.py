@@ -13,9 +13,20 @@ class Foo(object):
 	def eof(self):
 		return c_bool(lib.eof(self.obj))
 
-f = Foo("test.bed", "BED")
+class Basic(object):
+	def __init__(self, chr, start, end, strand="FORWARD"):
+		self.obj = lib.New_basic(chr, start, end, strand)
 
+	def getChr(self):
+		return c_char_p(lib.getChr(self.obj)).value
+
+# Tests with the parser
+f = Foo("test.bed", "BED")
 if f.eof() == True:
 	print "True"
 else:
 	print "False"
+
+# Tests with the uBasicNGS
+b = Basic("chr1", 100, 200)
+print b.getChr()
