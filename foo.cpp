@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <vector>
 #include "NGS++.h"
 
 using namespace NGS;
@@ -30,6 +31,11 @@ extern "C" {
 		else {
 			throw logic_error("Invalid strand type");
 		}
+	}
+
+	void delete_basic(uBasicNGS* basic) {
+		delete basic;
+		basic = NULL;
 	}
 
 	char* getChr(uBasicNGS* basic) {
@@ -146,6 +152,21 @@ extern "C" {
 	void trimSiteLeftRight(uBasicNGS* basic, long int trimLeft, long int trimRight) {
 		cout << "Before calling uBasicNGS trimSite (left, right)" << endl;
 		basic->trimSite(trimLeft, trimRight);
+	}
+
+	bool doesOverlap(uBasicNGS* basic, uBasicNGS* toCompare) {
+		cout << "Before calling doesOverlap" << endl;
+		return basic->doesOverlap(*toCompare);
+	}
+
+	uBasicNGS* returnOverlapping(uBasicNGS* basic, uBasicNGS* toCompare) {
+		cout << "Before calling returnOverlapping" << endl;
+		return new uBasicNGS(basic->returnOverlapping(*toCompare));
+	}
+
+	uBasicNGS* returnMerge(uBasicNGS* basic, uBasicNGS* toCompare) {
+		cout << "Before calling returnMerge" << endl;
+		return new uBasicNGS(basic->returnMerge(*toCompare));
 	}
 
 } // End of extern "C"

@@ -19,8 +19,11 @@ class Foo(object):
 		return c_bool(lib.eof(self.obj))
 
 class Basic(object):
-	def __init__(self, chr, start, end, strand="FORWARD"):
+	def __init__(self, chr="", start=1, end=1, strand="FORWARD"):
 		self.obj = lib.New_basic(chr, start, end, strand)
+
+	def __del__(self):
+		lib.delete_basic(self.obj)
 
 	def getChr(self):
 		return c_char_p(lib.getChr(self.obj)).value
@@ -45,6 +48,12 @@ class Basic(object):
 
 	def getScoreCount(self):
 		return lib.getScoreCount(self.obj)
+
+	def getScoreList(self):
+		scoreList = []
+		for i in range(0, self.getScoreCount()):
+			scoreList.append(self.getScore(i))
+		return scoreList
 
 	def isReverse(self):
 		return c_bool(lib.isReverse(self.obj))
@@ -82,6 +91,19 @@ class Basic(object):
 		else:
 			lib.trimSiteLeftRight(self.obj, trimLeft, trimRight)
 
+	def doesOverlap(self, toCompare):
+		return c_bool(lib.doesOverlap(self.obj, toCompare.obj))
+
+	def returnOverlapping(self, toCompare):
+		toReturn = Basic()
+		toReturn.obj = lib.returnOverlapping(self.obj, toCompare.obj)
+		return toReturn
+
+	def returnMerge(self, toCompare):
+		toReturn = Basic()
+		toReturn.obj = lib.returnMerge(self.obj, toCompare.obj)
+		return toReturn
+
 # Tests with the parser
 f = Foo("test.bed", "BED")
 if f.eof() == True:
@@ -99,6 +121,7 @@ print b.getChr()
 print b.getStrand()
 b.setStrand("-")
 print b.getStrand()
+print "IsReverse: " + str(b.isReverse())
 
 print "**** Start/End/Length tests with set/get/extend/trim"
 print "Base Values"
@@ -148,3 +171,24 @@ b.setScore(233.24, 1)
 print "Score(0): " + str(b.getScore(0))
 print "Score(1): " + str(b.getScore(1))
 print "ScoreCount: " + str(b.getScoreCount())
+print "ScoreList: " + str(b.getScoreList())
+
+print "**** Tests for doesOverlap"
+b2 = Basic("chr2", 100, 200)
+b3 = Basic("chr2", 201, 300)
+b4 = Basic("chr1", 100, 200)
+print "does overlap: " + str(b.doesOverlap(b2))
+print "does not overlap: " + str(b.doesOverlap(b3))
+print "does overlap not same chr: " + str(b.doesOverlap(b4))
+
+print "**** Tests for returnOverlapping"
+c = b.returnOverlapping(b2)
+print "Overlap: chr: " + c.getChr()
+print "Overlap: start: " + str(c.getStart())
+print "Overlap: end: " + str(c.getEnd())
+
+print "**** Tests for returnMerge"
+c = b.returnMerge(b2)
+print "Merge: chr: " + c.getChr()
+print "Merge: start: " + str(c.getStart())
+print "Merge: end: " + str(c.getEnd())
