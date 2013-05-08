@@ -8,6 +8,7 @@ from uBasicNGS_wrapper import *
 lib = cdll.LoadLibrary('./libfoo.so')
 
 # Tests with restype
+#lib.New_basicScore.argtypes = [ c_char_p, c_int, c_int, c_char_p, c_float ]
 lib.getScore.restype = ctypes.c_float
 lib.getScorePosition.restype = ctypes.c_float
 
@@ -26,8 +27,47 @@ else:
 	print "False"
 
 # Tests with the uBasicNGS
-b = Basic("chr1", 100, 200)
 
+print "**** Tests constructor basic"
+b = Basic()
+print "Chr: " + b.getChr()
+print "Start: " + str(b.getStart())
+print "End: " + str(b.getEnd())
+print "Strand: " + str(b.getStrand())
+print "**** Tests constructor chr"
+b = Basic("chr1")
+print "Chr: " + b.getChr()
+print "Start: " + str(b.getStart())
+print "End: " + str(b.getEnd())
+print "Strand: " + str(b.getStrand())
+print "**** Tests constructor start"
+b = Basic("chr1", 1000)
+print "Chr: " + b.getChr()
+print "Start: " + str(b.getStart())
+print "End: " + str(b.getEnd())
+print "Strand: " + str(b.getStrand())
+print "**** Tests constructor end"
+b = Basic("chr1", 1000, 1200)
+print "Chr: " + b.getChr()
+print "Start: " + str(b.getStart())
+print "End: " + str(b.getEnd())
+print "Strand: " + str(b.getStrand())
+print "**** Tests constructor strand"
+b = Basic("chr1", 1000, 1200, "-")
+print "Chr: " + b.getChr()
+print "Start: " + str(b.getStart())
+print "End: " + str(b.getEnd())
+print "Strand: " + str(b.getStrand())
+print "**** Tests constructor score"
+b = Basic("chr1", 1000, 1200, "-", 2.4)
+print "Chr: " + b.getChr()
+print "Start: " + str(b.getStart())
+print "End: " + str(b.getEnd())
+print "Strand: " + str(b.getStrand())
+print "Score: " + str(b.getScore())
+
+print "**** Misc tests"
+b = Basic("chr1", 100, 200)
 print b.getChr()
 b.setChr("chr2")
 print b.getChr()

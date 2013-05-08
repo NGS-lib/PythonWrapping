@@ -20,12 +20,22 @@ extern "C" {
 		}
 	}
 
+	uBasicNGS* New_basicScore(char* chr, long long int start, long long int end, char* strand, float score) {
+		uBasicNGS* ptr = New_basic(chr, start, end, strand);
+		ptr->setScore(score);
+		return ptr;
+	}
+
 	void delete_basic(uBasicNGS* basic) {
 		delete basic;
 		basic = NULL;
 	}
 
 	char* getChr(uBasicNGS* basic) {
+		if (basic->getChr() == "") {
+			string toReturn(" ");
+			return (char*)(toReturn.c_str());
+		}
 		return (char*) (basic->getChr().c_str());
 	}
 
