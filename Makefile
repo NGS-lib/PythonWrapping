@@ -16,8 +16,8 @@ clean:
 exec: libfoo.so
 	./fooWrapper.py
 
-libfoo.so: foo.o
-	$(GXX) $(LFLAGS) -o libfoo.so foo.o $(NGS_INGLUDE)
+libfoo.so: foo.o uBasicNGS.o
+	$(GXX) $(LFLAGS) -o libfoo.so $^ $(NGS_INGLUDE)
 
-foo.o: foo.cpp
-	$(GXX) $(CFLAGS) $(INCLUDE) foo.cpp -o foo.o
+%.o: %.cpp
+	$(GXX) $(CFLAGS) $(INCLUDE) $< -o $@

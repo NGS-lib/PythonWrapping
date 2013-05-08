@@ -104,6 +104,7 @@ class Basic(object):
 		toReturn.obj = lib.returnMerge(self.obj, toCompare.obj)
 		return toReturn
 
+
 # Tests with the parser
 f = Foo("test.bed", "BED")
 if f.eof() == True:
