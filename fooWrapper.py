@@ -152,7 +152,47 @@ print "--------------------------"
 print "TESTS: uBasicNGSChrom"
 print "--------------------------"
 print "**** Tests for constructor"
+print "No param:"
 chrom = Chrom()
+print "chr: " + chrom.getChr()
+print "chrSize: " + str(chrom.getChromSize())
+print "Chrom Name"
 chromName = Chrom("chr5")
+print "chr: " + chromName.getChr()
+print "chrSize: " + str(chromName.getChromSize())
+print "Chrom Name Size:"
 chromNameSize = Chrom("chr3", 123456)
+print "chr: " + chromNameSize.getChr()
+print "chrSize: " + str(chromNameSize.getChromSize())
+print "Chrom Size:"
 chromSize = Chrom(chromosomeSize=123456)
+print "chr: " + chromSize.getChr()
+print "chrSize: " + str(chromSize.getChromSize())
+
+print "**** Tests for getCopy"
+chromCopy = chromNameSize.getCopy()
+print "chr: " + chromCopy.getChr()
+print "chrSize: " + str(chromCopy.getChromSize())
+
+print "**** Tests for addData functions"
+chromAddData = Chrom("chr3")
+basicAddData = Basic("chr3", 100, 200)
+chromAddData.addData(basicAddData)
+print "chr: " + chromAddData.getChr()
+print "chrSize: " + str(chromAddData.getChromSize())
+
+print "**** Tests for inferChrSize "
+chromInfer = Chrom("chr3")
+chromInfer.addData(Basic("chr3", 1000, 3000))
+print "chrSize (before): " + str(chromInfer.getChromSize())
+chromInfer.inferChrSize()
+print "chrSize (after): " + str(chromInfer.getChromSize())
+chromInfer = Chrom()
+print "chrSize (empty):" + str(chromInfer.getChromSize())
+
+print "**** Tests for the divideItemsIntoNBins function"
+chromDivide = Chrom("chr4")
+chromDivide.addData(Basic("chr4", 1000, 3000))
+print "count (before): " + str(chromDivide.count())
+chromDivide.divideItemsIntoNBins(10, "IGNORE")
+print "count (after): " + str(chromDivide.count())
