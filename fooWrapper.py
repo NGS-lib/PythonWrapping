@@ -5,6 +5,7 @@
 
 from ctypes import *
 from uBasicNGS_wrapper import *
+from uBasicNGSChrom_wrapper import *
 lib = cdll.LoadLibrary('./libfoo.so')
 
 # Tests with restype
@@ -146,3 +147,12 @@ c = b.returnMerge(b2)
 print "Merge: chr: " + c.getChr()
 print "Merge: start: " + str(c.getStart())
 print "Merge: end: " + str(c.getEnd())
+
+print "--------------------------"
+print "TESTS: uBasicNGSChrom"
+print "--------------------------"
+print "**** Tests for constructor"
+chrom = Chrom()
+chromName = Chrom("chr5")
+chromNameSize = Chrom("chr3", 123456)
+chromSize = Chrom(chromosomeSize=123456)

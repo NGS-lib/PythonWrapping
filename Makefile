@@ -5,6 +5,10 @@ CFLAGS=-O3 -Wall -std=c++11 -c -fPIC
 LFLAGS=-shared -Wl,-soname,libfoo.so -lz
 INCLUDE=-I$(NGS_PATH) -I$(NGS_PATH)/NGS
 
+OBJECTS=foo.o
+OBJECTS+=uBasicNGS.o
+OBJECTS+=uBasicNGSChrom.o
+
 .PHONY: all
 all: libfoo.so
 
@@ -16,7 +20,7 @@ clean:
 exec: libfoo.so
 	./fooWrapper.py
 
-libfoo.so: foo.o uBasicNGS.o
+libfoo.so: $(OBJECTS)
 	$(GXX) $(LFLAGS) -o libfoo.so $^ $(NGS_INGLUDE)
 
 %.o: %.cpp
