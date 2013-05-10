@@ -31,7 +31,7 @@ extern "C" {
 		basic = NULL;
 	}
 
-	char* getChr(uBasicNGS* basic) {
+	char* getChrBasic(uBasicNGS* basic) {
 		if (basic->getChr() == "") {
 			string toReturn(" ");
 			return (char*)(toReturn.c_str());

@@ -25,8 +25,7 @@ class Basic(object):
 		lib.delete_basic(self.obj)
 
 	def getChr(self):
-		print c_char_p(lib.getChr(self.obj)).value
-		return c_char_p(lib.getChr(self.obj)).value
+		return c_char_p(lib.getChrBasic(self.obj)).value
 
 	def getStrand(self):
 		return c_char_p(lib.getStrand(self.obj)).value
