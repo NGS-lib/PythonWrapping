@@ -7,38 +7,6 @@ using namespace NGS;
 using namespace std;
 
 
-//    void replaceChr(const _CHROM_ &);
-//    void removeChr(const std::string &);
-
-//     _CHROM_ getChrom(const std::string & chrom) const;
-//     const _CHROM_* getpChrom(const std::string & chrom) const;
-//    _CHROM_* getpChrom(const std::string & chrom);
-//    _BASE_ getSite(const std::string & pChr, long int pPosition)const;
-//    _BASE_ getSite(typename std::vector<_BASE_>::const_iterator posItr)const;
-//
-//    _SELF_ getOverlapping(_SELF_ &compareExp, OverlapType type=OverlapType::OVERLAP_PARTIAL);
-//    _SELF_ getOverlapping(_CHROM_ &compareChrom, OverlapType type=OverlapType::OVERLAP_PARTIAL);
-//    _SELF_ getOverlapping(std::string chr, int start, int end, OverlapType type=OverlapType::OVERLAP_PARTIAL);
-//
-//    // TODO: getSubset overload that check every chromosome
-//
-//    // TODO: getDistinct overload that check every chromosome
-//    // TODO: getDistinct overload with range vector
-//    _SELF_ getDistinct(const std::string & pChr, const double pStart, const double pEnd, OverlapType type=OverlapType::OVERLAP_PARTIAL);
-//    _SELF_ removeDistinct(const std::string & pChr,const double pStart, const double pEnd, OverlapType options=OverlapType::OVERLAP_PARTIAL);
-//
-//
-//    long int getSubsetCount(const std::string & pChr, const double pStart, const double pEnd, const OverlapType overlap=OverlapType::OVERLAP_PARTIAL);
-//    long int getSubsetCount(const _BASE_ & subsetReg, const OverlapType overlap=OverlapType::OVERLAP_PARTIAL);
-//
-//
-//    int getChrCount(){return ExpMap.size();};
-//
-//    void setChrSize(std::string chr, int chrSize);
-//    int getChrSize(std::string chr);
-//    void divideItemsIntoBinofSize(int N, SplitType type=SplitType::STRICT);
-//    void divideItemsIntoNBins(int N, SplitType type=SplitType::STRICT);
-
 
 
 
@@ -101,6 +69,17 @@ extern "C" {
     {
         pExperiment->inferChrSize();
     }
+
+    /**< Wrapper ofr setChrSize */
+    void setChrSize_basicExperiment(uBasicNGSExperiment* pExperiment, char* pChr, int chrSize)
+    {
+        pExperiment->setChrSize(pChr,chrSize);
+    }
+    /**< Wrapepr of getChrSize */
+    int getChrSize_basicExperiment(uBasicNGSExperiment* pExperiment, char* pChr){
+        return pExperiment->getChrSize(pChr);
+    }
+
     /**< Wraps writeWithWriter(uWriter) */
     void writeWithWriter_basicExperiment(uBasicNGSExperiment* pExperiment,uWriter* pWriter){
 
@@ -125,6 +104,7 @@ extern "C" {
         pExperiment->removeChr(pChr);
     }
     /**< Wraps findPreceding */
+    /**< Returns a position rather then an iterator */
     int findPrecedingSitePos_basicExperiment(uBasicNGSExperiment* pExperiment, char * pChr, int value)
     {
         auto itr = pExperiment->findPrecedingSite(pChr,value);
@@ -132,6 +112,7 @@ extern "C" {
         return pos;
     }
     /**< Wraps findNextSite */
+    /**< Returns a position rather then an iterator */
     int findNextSitePos_basicExperiment(uBasicNGSExperiment* pExperiment, char * pChr, int value)
     {
         auto itr = pExperiment->findNextSite(pChr,value);
@@ -153,6 +134,68 @@ extern "C" {
         *returnChrom= ( pExperiment->removeSubset(pChr,pStart,pEnd) );
         return returnChrom;
     }
+    /**< Wraps replaceChr(uBasicNGSChrom */
+    void replaceChr_basicExperiment(uBasicNGSExperiment* pExperiment, uBasicNGSChrom* pChrom)
+    {
+        pExperiment->replaceChr(*pChrom);
+    }
+
+    /**< Wraps getOverlapping(uBasicNGSExperiment */
+    uBasicNGSExperiment* getOverlapping_fromExp_basicExperiment(uBasicNGSExperiment* pExperiment,uBasicNGSExperiment* pCompExperiment)
+    {
+        uBasicNGSExperiment* returnExp = new uBasicNGSExperiment();
+        *returnExp= pExperiment->getOverlapping(*pCompExperiment);
+        return returnExp;
+    }
+     /**< Wraps getOverlapping(uBasicNGSChrom */
+    uBasicNGSExperiment* getOverlapping_fromChrom_basicExperiment(uBasicNGSExperiment* pExperiment,uBasicNGSChrom* pCompChrom)
+    {
+        uBasicNGSExperiment* returnExp = new uBasicNGSExperiment();
+        *returnExp= pExperiment->getOverlapping(*pCompChrom);
+        return returnExp;
+    }
+    /**< Wraps getOverlapping(string, start, end */
+    uBasicNGSExperiment* getOverlapping_fromRegion_basicExperiment(uBasicNGSExperiment* pExperiment,char* pChr, int pStart, int pEnd)
+    {
+        uBasicNGSExperiment* returnExp = new uBasicNGSExperiment();
+        *returnExp= pExperiment->getOverlapping(pChr,pStart,pEnd);
+        return returnExp;
+    }
+
+
+    /**< Wraps getDistinct(string, start, end */
+    uBasicNGSExperiment* getDistinct_basicExperiment(uBasicNGSExperiment* pExperiment,char* pChr, int pStart, int pEnd)
+    {
+        uBasicNGSExperiment* returnExp = new uBasicNGSExperiment();
+        *returnExp= pExperiment->getDistinct(pChr,pStart,pEnd);
+        return returnExp;
+    }
+    /**< Wraps removeDistinct(string, start, end */
+    uBasicNGSExperiment* removeDistinct_basicExperiment(uBasicNGSExperiment* pExperiment,char* pChr, int pStart, int pEnd)
+    {
+        uBasicNGSExperiment* returnExp = new uBasicNGSExperiment();
+        *returnExp= pExperiment->removeDistinct(pChr,pStart,pEnd);
+        return returnExp;
+    }
+
+    /**< Wrapper for get chrCount */
+    int getChrCount_basicExperiment(uBasicNGSExperiment* pExperiment)
+    {
+        return pExperiment->getChrCount();
+
+    }
+
+    int getSubsetCount_region_basicExperiment(uBasicNGSExperiment* pExperiment, char* pChr, int start, int end)
+    {
+        return pExperiment->getSubsetCount(pChr,start,end);
+    }
+
+//     _CHROM_ getChrom(const std::string & chrom) const;
+//     const _CHROM_* getpChrom(const std::string & chrom) const;
+//    _CHROM_* getpChrom(const std::string & chrom);
+
+//    void divideItemsIntoBinofSize(int N, SplitType type=SplitType::STRICT);
+//    void divideItemsIntoNBins(int N, SplitType type=SplitType::STRICT);
 
 
 

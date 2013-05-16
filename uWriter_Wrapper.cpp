@@ -9,7 +9,9 @@ using namespace std;
 extern "C"{
 
 
-
+     uWriter* new_cout_Writer(char* pType){
+            return new uWriter(&std::cout,pType);
+    }
 
 
     uWriter* new_Writer(char* pFilename, char* pType){

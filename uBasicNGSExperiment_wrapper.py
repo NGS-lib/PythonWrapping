@@ -5,7 +5,9 @@
 import ctypes
 from ctypes import *
 libNGS = cdll.LoadLibrary("/home/local/USHERBROOKE/nora2001/Work/libs/release/libpyThonWrap.so")
-
+from uBasicNGS_wrapper import Basic
+from uParser_wrapper import uParser
+from uWriter_Wrapper import uWriter
 
 
 class BasicExp(object):
@@ -20,6 +22,12 @@ class BasicExp(object):
 	def is_chrom(self,chrom):
 		libNGS.isChrom_basicExperiment.restype=ctypes.c_bool
 		return libNGS.isChrom_basicExperiment(self.obj,chrom)
+
+	def set_chr_size(self,chrom,size):
+		libNGS.setChrSize_basicExperiment(self.obj,chrom,size)
+
+	def get_chr_size(self,chrom):
+		return libNGS.getChrSize_basicExperiment(self.obj,chrom)
 
 	def removeChr(self,chrom):
 		libNGS.removeChr_basicExperiment(self.obj,chrom)
@@ -66,6 +74,9 @@ class BasicExp(object):
 		return libNGS.findNextSitePos_basicExperiment(self.obj,chr,pos)
 
 
+	def get_subset_count(self,chr,start,end):
+		return libNGS.getSubsetCount_region_basicExperiment(self.obj,chr,start,end)
+
 	def get_subset(self,chr,start,end):
 		#toReturn =()
 		#toReturn.obj= libNGS.getSubset_basicExperiment(self.obj,chr,start,end)
@@ -75,11 +86,38 @@ class BasicExp(object):
 		toReturn =BasicExp()
 		toReturn.obj = libNGS.removeSubset_basicExperiment(self.obj,chr,start,end)
 		return toReturn
+#Second tests from here
+
+	def get_overlapping_from_exp(self,exp):
+		toReturn =BasicExp()
+		toReturn.obj = libNGS.getOverlapping_fromExp_basicExperiment(self.obj,exp.obj)
+		return toReturn
+
+	def get_overlapping_from_chrom(self,chrom):
+		toReturn =BasicExp()
+		toReturn.obj = libNGS.getOverlapping_fromChrom_basicExperiment(self.obj,chrom)
+		return toReturn
+
+	def get_overlapping_from_region(self,chr, start, end):
+		toReturn =BasicExp()
+		toReturn.obj = libNGS.getOverlapping_fromRegion_basicExperiment(self.obj,chr,start,end)
+		return toReturn
+
+	def get_distinct(self,chr,start,end):
+		toReturn =BasicExp()
+		toReturn.obj = libNGS.getDistinct_basicExperiment(self.obj,chr,start,end)
+		return toReturn
+
+	def remove_distinct(self,chr,start,end):
+		toReturn =BasicExp()
+		toReturn.obj = libNGS.removeDistinct_basicExperiment(self.obj,chr,start,end)
+		return toReturn
+
+	def get_chr_count(self):
+		return libNGS.getChrCount_basicExperiment(self.obj)
 
 
-
-
-if __name__=="__main__":
+def firstTests():
 	from uBasicNGS_wrapper import Basic
 	from uParser_wrapper import uParser
 	from uWriter_Wrapper import uWriter
@@ -115,7 +153,6 @@ if __name__=="__main__":
 	print A.count()
 	A.load_with_parser_path("/home/local/USHERBROOKE/nora2001/Work/class/NGS_testing/data/BED/bedH2AZ.bed","BED",3)
 	print A.count()
-	A.infer_chr_size()
 	writer= uWriter("","BEDGRAPH")
 	B= A.get_site("chr20",2)
 	print B.getChr(),B.getStart(),B.getEnd()
@@ -143,3 +180,63 @@ if __name__=="__main__":
 	A.remove_subset("chr2",30,120)
 	print "after subset"
 	A.write_with_writer(writer)
+
+	print "before setSize"
+	print A.get_chr_size("chr2")
+	print "after setSize"
+	A.set_chr_size("chr2",22999)
+	print A.get_chr_size("chr2")
+	print "after infer"
+	A.infer_chr_size()
+	print A.get_chr_size("chr2")
+
+def secondTests():
+	from uBasicNGS_wrapper import Basic
+	from uParser_wrapper import uParser
+	from uWriter_Wrapper import uWriter
+	writer= uWriter("","BEDGRAPH")
+	bedParser = uParser("/home/local/USHERBROOKE/nora2001/Work/class/NGS_testing/data/BED/bedH2AZ.bed","BED")
+	A = BasicExp()
+	A.load_with_parser(bedParser,0)
+	A.write_with_writer(writer)
+	C = BasicExp()
+	bedParser = uParser("/home/local/USHERBROOKE/nora2001/Work/class/NGS_testing/data/BED/bedH2AZ.bed","BED")
+	C.load_with_parser(bedParser,0)
+	C.removeChr("chr2")
+	C.write_with_writer
+	print "before anything"
+	A.write_with_writer(writer)
+	L=A.get_overlapping_from_exp(C)
+	print "after get overlapping exp"
+	L.write_with_writer(writer)
+	L=A.get_overlapping_from_region("chr20",257180,257480)
+	print "after get overlapping region"
+	L.write_with_writer(writer)
+	#Need to test
+	#get_overlapping_from_chrom(self,chrom):
+	print "reset"
+	bedParser = uParser("/home/local/USHERBROOKE/nora2001/Work/class/NGS_testing/data/BED/bedH2AZ.bed","BED")
+	A = BasicExp()
+	A.load_with_parser(bedParser,0)
+	A.write_with_writer(writer)
+
+	print "after removeDistinct"
+	A.sort_sites()
+	A.remove_distinct("chr20",250000, 257700)
+	A.write_with_writer(writer)
+	print "reset"
+	bedParser = uParser("/home/local/USHERBROOKE/nora2001/Work/class/NGS_testing/data/BED/bedH2AZ.bed","BED")
+	A = BasicExp()
+	A.load_with_parser(bedParser,0)
+	print "after getDistinct"
+	A.sort_sites()
+	F=A.get_distinct("chr20",250000, 257700)
+	print F.count()
+	F.write_with_writer(writer)
+	print "ChrCount", F.get_chr_count()
+	print A.get_subset_count("chr22",250000, 257700)
+
+if __name__=="__main__":
+	#firstTests()
+	secondTests()
+	

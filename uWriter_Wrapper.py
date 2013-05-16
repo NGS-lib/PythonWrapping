@@ -8,7 +8,12 @@ from uToken_wrapper import uToken
 class uWriter:
 
     def __init__(self,filename,typename):
-        self.obj = libNGS.new_Writer(filename,typename)
+
+        if (filename!=""):
+            self.obj = libNGS.new_Writer(filename,typename)
+        else:
+            self.obj = libNGS.new_cout_Writer(typename)
+
 
     def __del__(self):
     	libNGS.delete_Writer(self.obj)
@@ -24,10 +29,13 @@ class uWriter:
 if __name__=="__main__":
     from uParser_wrapper import uParser
     A = uParser("/home/local/USHERBROOKE/nora2001/Work/class/NGS_testing/data/SAM/chr21_nucleosome_subset.sam","SAM")
+    D = uWriter("","BED6")
     B = uToken()
+
     B = A.get_next_entry()
+    D.write_token(B)
     C = uWriter("current.txt","BED6")
     while (A.eof()==0):
         C.write_token(A.get_next_entry())
-    
+       
     
