@@ -5,7 +5,7 @@
 
 import ctypes
 from ctypes import *
-lib = cdll.LoadLibrary('./libfoo.so')
+lib = cdll.LoadLibrary("/home/local/USHERBROOKE/nora2001/Work/libs/release/libpyThonWrap.so")
 
 # Tests with restype
 lib.getScore.restype = ctypes.c_float
@@ -102,3 +102,4 @@ class Basic(object):
 		toReturn = Basic()
 		toReturn.obj = lib.returnMerge(self.obj, toCompare.obj)
 		return toReturn
+
