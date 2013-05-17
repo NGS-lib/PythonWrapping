@@ -1,6 +1,5 @@
 from ctypes import *
-stdc=cdll.LoadLibrary("libc.so.6")
-stdcpp=cdll.LoadLibrary("libstdc++.so.6")
+import os
 libNGS = cdll.LoadLibrary(os.environ.get('NGSWRAPPERLIB'))
 
 from uToken_wrapper import uToken

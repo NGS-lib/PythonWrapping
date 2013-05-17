@@ -1,18 +1,16 @@
 #!/usr/bin/python
 # author: Alexei Nordell
 # 2013-05-08
-import os
+
 import ctypes
 from ctypes import *
-
+import os
 libNGS = cdll.LoadLibrary(os.environ.get('NGSWRAPPERLIB'))
 from uBasicNGS_wrapper import Basic
 from uParser_wrapper import uParser
 from uWriter_Wrapper import uWriter
 
-
 class BasicExp(object):
-
 
 	def __init__(self):
 		self.obj = libNGS.new_basicExperiment()

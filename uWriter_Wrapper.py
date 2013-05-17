@@ -1,7 +1,7 @@
 from ctypes import *
-
-libNGS = cdll.LoadLibrary(os.environ.get('NGSWRAPPERLIB'))
 import os
+print os.environ.get('NGSWRAPPERLIB')
+libNGS = cdll.LoadLibrary( os.environ.get('NGSWRAPPERLIB')  )
 from uToken_wrapper import uToken
 
 class uWriter:
