@@ -26,7 +26,6 @@ class Chrom(object):
 		toReturn = Chrom()
 		toReturn.obj = lib.getCopyChrom(self.obj)
 		return toReturn
-#		return lib.getCopyChrom(self.obj)
 
 	def setChrSize(self, size):
 		return lib.setChromSize(self.obj, size)
@@ -52,20 +51,38 @@ class Chrom(object):
 	def divideItemsIntoNBins(self, number, splitType="STRICT"):
 		return lib.divideItemsIntoNBinsChrom(self.obj, number, splitType)
 
-#	def getSite(self, position):
-#		return lib.getSite(self.obj, position)
+	def divideItemsIntoBinofSize(self, number, splitType="STRICT"):
+		return lib.divideItemsIntoBinofSizeChrom(self.obj, number, splitType)
 
-#	def avgSiteSize(self):
-#		return lib.avgSiteSize(self.obj, position)
+	def getSite(self, position):
+		toReturn = Basic()
+		toReturn.obj = lib.getSite(self.obj, position)
+		return toReturn
 
-#	def minSiteSize(self):
-#		return lib.minSiteSize(self.obj, position)
+	def avgSiteSize(self):
+		return lib.avgSiteSize(self.obj)
 
-#	def maxSiteSize(self):
-#		return lib.maxSiteSize(self.obj, position)
+	def minSiteSize(self):
+		return lib.minSiteSize(self.obj)
 
-#	def sumSiteSize(self):
-#		return lib.sumSiteSize(self.obj, position)
+	def maxSiteSize(self):
+		return lib.maxSiteSize(self.obj)
 
-#	def inferChrSize(self):
-#		lib.inferChrSize(self.obj)
+	def sumSiteSize(self):
+		return lib.sumSiteSize(self.obj)
+
+#	def addRandomSites(self, size, count):
+#		lib.addNRandomSite(self.obj, count)
+
+	def count(self):
+		return lib.count(self.obj)
+
+	def getOverlapping(self, otherChrom, overlapType = "OVERLAP_PARTIAL"):
+		toReturn = Chrom()
+		toReturn.obj = lib.getOverlappingChrom(self.obj, otherChrom.obj, overlapType)
+		return toReturn
+
+#	def getOverlappingRegion(self, region, '
+
+	def getOverlappingCount(self, otherChrom, overlapType = "OVERLAP_PARTIAL"):
+		return lib.getOverlappingCount(self.obj, otherChrom.obj, overlapType)

@@ -1,4 +1,5 @@
 #include "NGS++.h"
+#include <random>
 
 using namespace NGS;
 using namespace std;
@@ -55,6 +56,10 @@ extern "C" {
 	long int countChrom(uBasicNGSChrom* chrom) {
 		return chrom->count();
 	}
+
+	uBasicNGS* getSite(uBasicNGSChrom* chrom, long long position) {
+		return new uBasicNGS(chrom->getSite(position));
+	}
 	/* Misc */
 	void divideItemsIntoNBinsChrom(uBasicNGSChrom* chrom, int number, char* splitType) {
 		string splitTypeString(splitType);
@@ -72,6 +77,79 @@ extern "C" {
 		}
 		else {
 			throw runtime_error("divideItemsIntoNBinsChrom: Invalid splitType (" + splitTypeString + ")");
+		}
+	}
+	void divideItemsIntoBinofSizeChrom(uBasicNGSChrom* chrom, int number, char* splitType) {
+		string splitTypeString(splitType);
+		if (splitTypeString == "STRICT") {
+			chrom->divideItemsIntoBinofSize(number, SplitType::STRICT);
+		}
+		else if (splitTypeString == "IGNORE") {
+			chrom->divideItemsIntoBinofSize(number, SplitType::IGNORE);
+		}
+		else if (splitTypeString == "EXTEND") {
+			chrom->divideItemsIntoBinofSize(number, SplitType::EXTEND);
+		}
+		else if (splitTypeString == "ADD") {
+			chrom->divideItemsIntoBinofSize(number, SplitType::ADD);
+		}
+		else {
+			throw runtime_error("divideItemsIntoBinofSizeChrom: Invalid splitType (" + splitTypeString + ")");
+		}
+	}
+	unsigned long long avgSiteSize(uBasicNGSChrom* chrom) {
+		return chrom->avgSiteSize();
+	}
+	unsigned long long minSiteSize(uBasicNGSChrom* chrom) {
+		return chrom->minSiteSize();
+	}
+	unsigned long long maxSiteSize(uBasicNGSChrom* chrom) {
+		return chrom->maxSiteSize();
+	}
+	unsigned long long sumSiteSize(uBasicNGSChrom* chrom) {
+		return chrom->sumSiteSize();
+	}
+	// This throw a param_throw for some reason...
+	//void addNRandomSite(uBasicNGSChrom* chrom, int size, int count) {
+		//std::cout << "1" << std::endl;
+		//std::random_device rd;
+		//std::cout << "2" << std::endl;
+		//std::mt19937 gen(rd());
+		//std::cout << "3" << std::endl;
+		//chrom->addNRandomSite(size, count, gen, 0);
+		//std::cout << "4" << std::endl;
+	//}
+	long int count(uBasicNGSChrom* chrom) {
+		return chrom->count();
+	}
+	uBasicNGSChrom* getOverlappingChrom(uBasicNGSChrom* chrom, uBasicNGSChrom* otherChrom, char* overlapType) {
+		string overlapTypeString(overlapType);
+		if (overlapTypeString == "OVERLAP_PARTIAL") {
+			return new uBasicNGSChrom(chrom->getOverlapping(*otherChrom, OverlapType::OVERLAP_PARTIAL));
+		}
+		else if (overlapTypeString == "OVERLAP_COMPLETE") {
+			return new uBasicNGSChrom(chrom->getOverlapping(*otherChrom, OverlapType::OVERLAP_COMPLETE));
+		}
+		else if (overlapTypeString == "OVERLAP_CENTER") {
+			return new uBasicNGSChrom(chrom->getOverlapping(*otherChrom, OverlapType::OVERLAP_CENTER));
+		}
+		else {
+			throw runtime_error("getOverlapping: Invalid overlapType(" + overlapTypeString + ")");
+		}
+	}
+	long long int getOverlappingCount(uBasicNGSChrom* chrom, uBasicNGSChrom* otherChrom, char* overlapType) {
+		string overlapTypeString(overlapType);
+		if (overlapTypeString == "OVERLAP_PARTIAL") {
+			return chrom->getOverlappingCount(*otherChrom, OverlapType::OVERLAP_PARTIAL);
+		}
+		else if (overlapTypeString == "OVERLAP_COMPLETE") {
+			return chrom->getOverlappingCount(*otherChrom, OverlapType::OVERLAP_COMPLETE);
+		}
+		else if (overlapTypeString == "OVERLAP_CENTER") {
+			return chrom->getOverlappingCount(*otherChrom, OverlapType::OVERLAP_CENTER);
+		}
+		else {
+			throw runtime_error("getOverlappingCount: Invalid overlapType(" + overlapTypeString + ")");
 		}
 	}
 } // End of extern "C"

@@ -196,3 +196,72 @@ chromDivide.addData(Basic("chr4", 1000, 3000))
 print "count (before): " + str(chromDivide.count())
 chromDivide.divideItemsIntoNBins(10, "IGNORE")
 print "count (after): " + str(chromDivide.count())
+
+print "**** Tests for the divideItemsIntoBinofSize function"
+chromDivide = Chrom("chr4")
+chromDivide.addData(Basic("chr4", 1000, 2000))
+print "count (before): " + str(chromDivide.count())
+chromDivide.divideItemsIntoBinofSize(20, "IGNORE")
+print "count (after): " + str(chromDivide.count())
+
+print "**** Tests for the function getSite"
+chromGetSite = Chrom("chr1")
+chromGetSite.addData(Basic("chr1", 300, 500))
+aSite = chromGetSite.getSite(0)
+print "getSite: chr: " + aSite.getChr()
+print "getSite: start: " + str(aSite.getStart())
+print "getSite: end: " + str(aSite.getEnd())
+
+print "**** Tests for the statistic functions"
+chromStats = Chrom("chrX")
+chromStats.addData(Basic("chrX", 300, 500))
+chromStats.addData(Basic("chrX", 300, 600))
+chromStats.addData(Basic("chrX", 400, 500))
+print "avg: " + str(chromStats.avgSiteSize())
+print "min: " + str(chromStats.minSiteSize())
+print "max: " + str(chromStats.maxSiteSize())
+print "sum: " + str(chromStats.sumSiteSize())
+print "count: " + str(chromStats.count())
+
+#print "**** Tests for adding random sites"
+#chromAddRandom = Chrom("chrY")
+#chromAddRandom.addRandomSites(100, 10)
+#print "Count: " + str(chromAddRandom.count())
+
+print "**** Tests for getOverlapping/getOverlappingCount"
+chromOverlap1 = Chrom("chr1")
+chromOverlap1.addData(Basic("chr1", 100, 200))
+chromOverlap1.addData(Basic("chr1", 400, 800))
+chromOverlap1.addData(Basic("chr1", 1000, 1200))
+print "Different chrom:"
+chromOverlap2 = Chrom("chr2")
+chromOverlap2.addData(Basic("chr2", 100, 200))
+chromOverlap2.addData(Basic("chr2", 400, 800))
+chromOverlap2.addData(Basic("chr2", 1000, 1200))
+chromOverlapResult = chromOverlap1.getOverlapping(chromOverlap2)
+print "Result Count: " + str(chromOverlapResult.count())
+print "getOverlapCount: " + str(chromOverlap1.getOverlappingCount(chromOverlap2))
+print "No overlap:"
+chromOverlap3 = Chrom("chr1")
+chromOverlap3.addData(Basic("chr1", 1300, 1400))
+chromOverlap3.addData(Basic("chr1", 1400, 1800))
+chromOverlap3.addData(Basic("chr1", 11000, 11200))
+chromOverlapResult = chromOverlap1.getOverlapping(chromOverlap3)
+print "Result Count: " + str(chromOverlapResult.count())
+print "getOverlapCount: " + str(chromOverlap1.getOverlappingCount(chromOverlap3))
+print "Some overlap:"
+chromOverlap4 = Chrom("chr1")
+chromOverlap4.addData(Basic("chr1", 100, 150))
+chromOverlap4.addData(Basic("chr1", 400, 900))
+chromOverlap4.addData(Basic("chr1", 11000, 11200))
+chromOverlapResult = chromOverlap1.getOverlapping(chromOverlap4)
+print "Result Count: " + str(chromOverlapResult.count())
+print "getOverlapCount: " + str(chromOverlap1.getOverlappingCount(chromOverlap4))
+print "All overlap: "
+chromOverlap5 = Chrom("chr1")
+chromOverlap5.addData(Basic("chr1", 100, 200))
+chromOverlap5.addData(Basic("chr1", 400, 800))
+chromOverlap5.addData(Basic("chr1", 1000, 1200))
+chromOverlapResult = chromOverlap1.getOverlapping(chromOverlap5)
+print "Result Count: " + str(chromOverlapResult.count())
+print "getOverlapCount: " + str(chromOverlap1.getOverlappingCount(chromOverlap5))
