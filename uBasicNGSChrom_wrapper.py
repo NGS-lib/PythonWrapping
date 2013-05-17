@@ -6,7 +6,7 @@
 from uBasicNGS_wrapper import *
 import ctypes
 from ctypes import *
-lib = cdll.LoadLibrary('./libfoo.so')
+lib = cdll.LoadLibrary(os.environ.get('NGSWRAPPERLIB'))
 
 class Chrom(object):
 	def __init__(self, chromosomeName = None, chromosomeSize = None):

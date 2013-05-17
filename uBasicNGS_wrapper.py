@@ -5,9 +5,8 @@
 
 import ctypes
 from ctypes import *
-#lib = cdll.LoadLibrary("/home/local/USHERBROOKE/nora2001/Work/libs/release/libpyThonWrap.so")
-lib = cdll.LoadLibrary('./libfoo.so')
-
+import os
+lib = cdll.LoadLibrary(os.environ.get('NGSWRAPPERLIB'))
 # Tests with restype
 lib.getScore.restype = ctypes.c_float
 

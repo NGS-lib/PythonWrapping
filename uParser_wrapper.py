@@ -1,7 +1,7 @@
 from ctypes import *
 stdc=cdll.LoadLibrary("libc.so.6")
 stdcpp=cdll.LoadLibrary("libstdc++.so.6")
-libNGS = cdll.LoadLibrary("/home/local/USHERBROOKE/nora2001/Work/libs/release/libpyThonWrap.so")
+libNGS = cdll.LoadLibrary(os.environ.get('NGSWRAPPERLIB'))
 
 from uToken_wrapper import uToken
 
