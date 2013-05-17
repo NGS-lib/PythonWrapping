@@ -7,8 +7,6 @@ import ctypes
 from ctypes import *
 import os
 lib = cdll.LoadLibrary(os.environ.get('NGSWRAPPERLIB'))
-# Tests with restype
-lib.getScore.restype = ctypes.c_float
 
 class Basic(object):
 	def __init__(self, chr="", start=1, end=None, strand=None, score=None):
@@ -39,6 +37,7 @@ class Basic(object):
 		return lib.getLength(self.obj)
 
 	def get_score(self, position=None):
+		lib.getScore.restype = c_float
 		if position is None:
 			return lib.getScore(self.obj)
 		else:

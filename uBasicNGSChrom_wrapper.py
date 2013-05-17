@@ -4,8 +4,8 @@
 # 2013-05-08
 
 from uBasicNGS_wrapper import *
-import ctypes
 from ctypes import *
+import os
 lib = cdll.LoadLibrary(os.environ.get('NGSWRAPPERLIB'))
 
 class Chrom(object):
