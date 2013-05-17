@@ -152,4 +152,64 @@ extern "C" {
 			throw runtime_error("getOverlappingCount: Invalid overlapType(" + overlapTypeString + ")");
 		}
 	}
+	uBasicNGSChrom* getOverlappingChromBasic(uBasicNGSChrom* chrom, uBasicNGS* region, char* overlapType) {
+		string overlapTypeString(overlapType);
+		if (overlapTypeString == "OVERLAP_PARTIAL") {
+			return new uBasicNGSChrom(chrom->getOverlapping(*region, OverlapType::OVERLAP_PARTIAL));
+		}
+		else if (overlapTypeString == "OVERLAP_COMPLETE") {
+			return new uBasicNGSChrom(chrom->getOverlapping(*region, OverlapType::OVERLAP_COMPLETE));
+		}
+		else if (overlapTypeString == "OVERLAP_CENTER") {
+			return new uBasicNGSChrom(chrom->getOverlapping(*region, OverlapType::OVERLAP_CENTER));
+		}
+		else {
+			throw runtime_error("getOverlapping: Invalid overlapType(" + overlapTypeString + ")");
+		}
+	}
+	long long int getOverlappingCountBasic(uBasicNGSChrom* chrom, uBasicNGS* basic, char* overlapType) {
+		string overlapTypeString(overlapType);
+		if (overlapTypeString == "OVERLAP_PARTIAL") {
+			return chrom->getOverlappingCount(*basic, OverlapType::OVERLAP_PARTIAL);
+		}
+		else if (overlapTypeString == "OVERLAP_COMPLETE") {
+			return chrom->getOverlappingCount(*basic, OverlapType::OVERLAP_COMPLETE);
+		}
+		else if (overlapTypeString == "OVERLAP_CENTER") {
+			return chrom->getOverlappingCount(*basic, OverlapType::OVERLAP_CENTER);
+		}
+		else {
+			throw runtime_error("getOverlappingCount: Invalid overlapType(" + overlapTypeString + ")");
+		}
+	}
+	uBasicNGSChrom* getOverlappingChromRegion(uBasicNGSChrom* chrom, long int start, long int end, char* overlapType) {
+		string overlapTypeString(overlapType);
+		if (overlapTypeString == "OVERLAP_PARTIAL") {
+			return new uBasicNGSChrom(chrom->getOverlapping(start, end, OverlapType::OVERLAP_PARTIAL));
+		}
+		else if (overlapTypeString == "OVERLAP_COMPLETE") {
+			return new uBasicNGSChrom(chrom->getOverlapping(start, end, OverlapType::OVERLAP_COMPLETE));
+		}
+		else if (overlapTypeString == "OVERLAP_CENTER") {
+			return new uBasicNGSChrom(chrom->getOverlapping(start, end, OverlapType::OVERLAP_CENTER));
+		}
+		else {
+			throw runtime_error("getOverlapping: Invalid overlapType(" + overlapTypeString + ")");
+		}
+	}
+	long long int getOverlappingCountRegion(uBasicNGSChrom* chrom, long int start, long int end, char* overlapType) {
+		string overlapTypeString(overlapType);
+		if (overlapTypeString == "OVERLAP_PARTIAL") {
+			return chrom->getOverlappingCount(start, end, OverlapType::OVERLAP_PARTIAL);
+		}
+		else if (overlapTypeString == "OVERLAP_COMPLETE") {
+			return chrom->getOverlappingCount(start, end, OverlapType::OVERLAP_COMPLETE);
+		}
+		else if (overlapTypeString == "OVERLAP_CENTER") {
+			return chrom->getOverlappingCount(start, end, OverlapType::OVERLAP_CENTER);
+		}
+		else {
+			throw runtime_error("getOverlappingCount: Invalid overlapType(" + overlapTypeString + ")");
+		}
+	}
 } // End of extern "C"

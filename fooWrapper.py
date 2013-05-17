@@ -228,7 +228,7 @@ print "count: " + str(chromStats.count())
 #chromAddRandom.addRandomSites(100, 10)
 #print "Count: " + str(chromAddRandom.count())
 
-print "**** Tests for getOverlapping/getOverlappingCount"
+print "**** Tests for getOverlapping/getOverlappingCount (other Chrom)"
 chromOverlap1 = Chrom("chr1")
 chromOverlap1.addData(Basic("chr1", 100, 200))
 chromOverlap1.addData(Basic("chr1", 400, 800))
@@ -265,3 +265,28 @@ chromOverlap5.addData(Basic("chr1", 1000, 1200))
 chromOverlapResult = chromOverlap1.getOverlapping(chromOverlap5)
 print "Result Count: " + str(chromOverlapResult.count())
 print "getOverlapCount: " + str(chromOverlap1.getOverlappingCount(chromOverlap5))
+
+print "**** Tests for getOverlapping/getOverlappingCount (basic)"
+chromBasicOverlap1 = Chrom("chr2")
+chromBasicOverlap1.addData(Basic("chr2", 100, 200))
+chromBasicOverlap1.addData(Basic("chr2", 400, 800))
+chromBasicOverlap1.addData(Basic("chr2", 1000, 1200))
+print "chromBasicOverlap1.count(): " + str(chromBasicOverlap1.count())
+basicOverlap = Basic("chr2", 50, 900)
+chromOverlapResult = chromBasicOverlap1.getOverlappingBasic(basicOverlap)
+print "Result Count: " + str(chromOverlapResult.count())
+print "getOverlapCount: " + str(chromBasicOverlap1.getOverlappingCountBasic(basicOverlap))
+#aSite = chromOverlapResult.getSite(0)
+#print "getSite: chr: " + aSite.getChr()
+#print "getSite: start: " + str(aSite.getStart())
+#print "getSite: end: " + str(aSite.getEnd())
+
+print "**** Tests for getOverlapping/getOverlappingCount (region)"
+chromRegionOverlap1 = Chrom("chr3")
+chromRegionOverlap1.addData(Basic("chr3", 100, 200))
+chromRegionOverlap1.addData(Basic("chr3", 400, 800))
+chromRegionOverlap1.addData(Basic("chr3", 1000, 1200))
+chromOverlapResult = chromRegionOverlap1.getOverlappingRegion(50, 900)
+print "chromOverlapResult; " + str(chromOverlapResult)
+#print "Result Count: " + str(chromOverlapResult.count())
+print "getOverlapCount: " + str(chromBasicOverlap1.getOverlappingCountRegion(50, 900))

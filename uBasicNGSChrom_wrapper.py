@@ -82,7 +82,22 @@ class Chrom(object):
 		toReturn.obj = lib.getOverlappingChrom(self.obj, otherChrom.obj, overlapType)
 		return toReturn
 
-#	def getOverlappingRegion(self, region, '
+	def getOverlappingBasic(self, region, overlapType = "OVERLAP_PARTIAL"):
+		toReturn = Chrom()
+		toReturn.obj = lib.getOverlappingChromBasic(self.obj, region.obj, overlapType)
+		return toReturn
+
+	def getOverlappingRegion(self, start, end, overlapType = "OVERLAP_PARTIAL"):
+		toReturn = Chrom()
+		toReturn = lib.getOverlappingChromRegion(self.obj, start, end, overlapType)
+		return toReturn
 
 	def getOverlappingCount(self, otherChrom, overlapType = "OVERLAP_PARTIAL"):
 		return lib.getOverlappingCount(self.obj, otherChrom.obj, overlapType)
+
+	def getOverlappingCountBasic(self, basic, overlapType = "OVERLAP_PARTIAL"):
+		return lib.getOverlappingCountBasic(self.obj, basic.obj, overlapType)
+
+	def getOverlappingCountRegion(self, start, end, overlapType = "OVERLAP_PARTIAL"):
+		return lib.getOverlappingCountRegion(self.obj, start, end, overlapType)
+
