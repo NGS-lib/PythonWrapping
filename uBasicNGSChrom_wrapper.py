@@ -91,7 +91,7 @@ class uBasicChrom(object):
 
 	def get_overlapping_region(self, start, end, overlapType = "OVERLAP_PARTIAL"):
 		toReturn = uBasicChrom()
-		toReturn = self.lib.getOverlappingChromRegion(self.obj, start, end, overlapType)
+		toReturn.obj = self.lib.getOverlappingChromRegion(self.obj, start, end, overlapType)
 		return toReturn
 
 	def get_not_overlapping(self, otherChrom, overlapType = "OVERLAP_PARTIAL"):
@@ -275,39 +275,39 @@ if __name__=="__main__":
 
 	print ""
 	print "**** Tests for get_not_overlapping (other Chrom)"
-	chromNotOverlap1 = Chrom("chr1")
-	chromNotOverlap1.add_data(Basic("chr1", 100, 200))
-	chromNotOverlap1.add_data(Basic("chr1", 400, 800))
-	chromNotOverlap1.add_data(Basic("chr1", 1000, 1200))
+	chromNotOverlap1 = uBasicChrom("chr1")
+	chromNotOverlap1.add_data(uBasic("chr1", 100, 200))
+	chromNotOverlap1.add_data(uBasic("chr1", 400, 800))
+	chromNotOverlap1.add_data(uBasic("chr1", 1000, 1200))
 	print "Different chrom:"
-	chromNotOverlap2 = Chrom("chr2")
-	chromNotOverlap2.add_data(Basic("chr2", 100, 200))
-	chromNotOverlap2.add_data(Basic("chr2", 400, 800))
-	chromNotOverlap2.add_data(Basic("chr2", 1000, 1200))
+	chromNotOverlap2 = uBasicChrom("chr2")
+	chromNotOverlap2.add_data(uBasic("chr2", 100, 200))
+	chromNotOverlap2.add_data(uBasic("chr2", 400, 800))
+	chromNotOverlap2.add_data(uBasic("chr2", 1000, 1200))
 	chromNotOverlapResult = chromNotOverlap1.get_not_overlapping(chromNotOverlap2)
 	print "Result Count: " + str(chromNotOverlapResult.count())
 #	print "get_not_overlapCount: " + str(chromNotOverlap1.get_not_overlapping_count(chromNotOverlap2))
 	print "No overlap:"
-	chromNotOverlap3 = Chrom("chr1")
-	chromNotOverlap3.add_data(Basic("chr1", 1300, 1400))
-	chromNotOverlap3.add_data(Basic("chr1", 1400, 1800))
-	chromNotOverlap3.add_data(Basic("chr1", 11000, 11200))
+	chromNotOverlap3 = uBasicChrom("chr1")
+	chromNotOverlap3.add_data(uBasic("chr1", 1300, 1400))
+	chromNotOverlap3.add_data(uBasic("chr1", 1400, 1800))
+	chromNotOverlap3.add_data(uBasic("chr1", 11000, 11200))
 	chromNotOverlapResult = chromNotOverlap1.get_not_overlapping(chromNotOverlap3)
 	print "Result Count: " + str(chromNotOverlapResult.count())
 #	print "get_not_overlapCount: " + str(chromNotOverlap1.get_not_overlapping_count(chromNotOverlap3))
 	print "Some overlap:"
-	chromNotOverlap4 = Chrom("chr1")
-	chromNotOverlap4.add_data(Basic("chr1", 100, 150))
-	chromNotOverlap4.add_data(Basic("chr1", 400, 900))
-	chromNotOverlap4.add_data(Basic("chr1", 11000, 11200))
+	chromNotOverlap4 = uBasicChrom("chr1")
+	chromNotOverlap4.add_data(uBasic("chr1", 100, 150))
+	chromNotOverlap4.add_data(uBasic("chr1", 400, 900))
+	chromNotOverlap4.add_data(uBasic("chr1", 11000, 11200))
 	chromNotOverlapResult = chromNotOverlap1.get_not_overlapping(chromNotOverlap4)
 	print "Result Count: " + str(chromNotOverlapResult.count())
 #	print "get_overlapCount: " + str(chromNotOverlap1.get_not_overlapping_count(chromNotOverlap4))
 	print "All overlap: "
-	chromNotOverlap5 = Chrom("chr1")
-	chromNotOverlap5.add_data(Basic("chr1", 100, 200))
-	chromNotOverlap5.add_data(Basic("chr1", 400, 800))
-	chromNotOverlap5.add_data(Basic("chr1", 1000, 1200))
+	chromNotOverlap5 = uBasicChrom("chr1")
+	chromNotOverlap5.add_data(uBasic("chr1", 100, 200))
+	chromNotOverlap5.add_data(uBasic("chr1", 400, 800))
+	chromNotOverlap5.add_data(uBasic("chr1", 1000, 1200))
 	chromNotOverlapResult = chromNotOverlap1.get_not_overlapping(chromNotOverlap5)
 	print "Result Count: " + str(chromNotOverlapResult.count())
 #	print "get_not_overlapCount: " + str(chromNotOverlap1.get_not_overlapping_count(chromNotOverlap5))
