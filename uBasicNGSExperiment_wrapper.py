@@ -134,7 +134,7 @@ def firstTests():
 	bedParser = uParser("/home/local/USHERBROOKE/nora2001/Work/class/NGS_testing/data/BED/bedH2AZ.bed","BED")
 	print "Make empty BasicExp"
 	A = uBasicExp()
-
+	A.sort_sites()
 	B= uBasic("chr2",100,200)
 	print "Test is Chrom"
 	if (A.is_chrom("chr1")==0):
@@ -164,6 +164,7 @@ def firstTests():
 	A.load_with_parser_path("/home/local/USHERBROOKE/nora2001/Work/class/NGS_testing/data/BED/bedH2AZ.bed","BED",3)
 	print A.count()
 	writer= uWriter("","BEDGRAPH")
+	
 	B= A.get_site("chr20",2)
 	print B.get_chr(),B.get_start(),B.get_end()
 	print A.count()
