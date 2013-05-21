@@ -13,7 +13,6 @@ class uWriter:
         else:
             self.obj = libNGS.new_cout_Writer(typename)
 
-
     def __del__(self):
     	libNGS.delete_Writer(self.obj)
 
@@ -27,7 +26,7 @@ class uWriter:
 
 if __name__=="__main__":
     from uParser_wrapper import uParser
-    A = uParser("/home/local/USHERBROOKE/nora2001/Work/class/NGS_testing/data/SAM/chr21_nucleosome_subset.sam","SAM")
+    A = uParser("/home/local/USHERBROOKE/nora2001/Work/class/NGS_testing/data/BAM/H2AZ.bam","BAM")
     D = uWriter("","BED6")
     B = uToken()
 

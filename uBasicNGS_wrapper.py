@@ -6,7 +6,11 @@
 import ctypes
 from ctypes import *
 import os
-lib = cdll.LoadLibrary(os.environ.get('NGSWRAPPERLIB'))
+
+NGSlib = cdll.LoadLibrary(os.environ.get('NGSWRAPPERLIB'))
+# Tests with restype
+NGSlib.getScore.restype = ctypes.c_float
+
 
 class Basic(object):
 	def __init__(self, chr="", start=1, end=None, strand=None, score=None):
@@ -14,37 +18,37 @@ class Basic(object):
 			end = start
 		if strand is None:
 			strand = "FORWARD"
-		self.obj = lib.New_basic(chr, start, end, strand)
+		self.obj = NGSlib.New_basic(chr, start, end, strand)
 		if score is not None:
-			lib.setScore(self.obj, c_float(score))
+			NGSlib.setScore(self.obj, c_float(score))
 
 	def __del__(self):
-		lib.delete_basic(self.obj)
+		NGSlib.delete_basic(self.obj)
 
 	def get_chr(self):
-		return c_char_p(lib.getChrBasic(self.obj)).value
+		return c_char_p(NGSlib.getChrBasic(self.obj)).value
 
 	def get_strand(self):
-		return c_char_p(lib.getStrand(self.obj)).value
+		return c_char_p(NGSlib.getStrand(self.obj)).value
 
 	def get_start(self):
-		return lib.getStart(self.obj)
+		return NGSlib.getStart(self.obj)
 
 	def get_end(self):
-		return lib.getEnd(self.obj)
+		return NGSlib.getEnd(self.obj)
 
 	def get_length(self):
-		return lib.getLength(self.obj)
+		return NGSlib.getLength(self.obj)
 
 	def get_score(self, position=None):
 		lib.getScore.restype = c_float
 		if position is None:
-			return lib.getScore(self.obj)
+			return NGSlib.getScore(self.obj)
 		else:
-			return lib.getScorePosition(self.obj, position)
+			return NGSlib.getScorePosition(self.obj, position)
 
 	def get_score_count(self):
-		return lib.getScoreCount(self.obj)
+		return NGSlib.getScoreCount(self.obj)
 
 	def get_score_list(self):
 		scoreList = []
@@ -53,52 +57,52 @@ class Basic(object):
 		return scoreList
 
 	def is_reverse(self):
-		return c_bool(lib.isReverse(self.obj))
+		return c_bool(NGSlib.isReverse(self.obj))
 
 	def set_chr(self, chr):
-		lib.setChr(self.obj, chr)
+		NGSlib.setChr(self.obj, chr)
 
 	def set_strand(self, strand):
-		lib.setStrand(self.obj, strand)
+		NGSlib.setStrand(self.obj, strand)
 
 	def set_start(self, start):
-		lib.setStart(self.obj, start)
+		NGSlib.setStart(self.obj, start)
 
 	def set_end(self, end):
-		lib.setEnd(self.obj, end)
+		NGSlib.setEnd(self.obj, end)
 
 	def set_start_end(self, start, end):
-		lib.setStartEnd(self.obj, start, end)
+		NGSlib.setStartEnd(self.obj, start, end)
 
 	def set_score(self, score, position=None):
 		if position is None:
-			lib.setScore(self.obj, c_float(score))
+			NGSlib.setScore(self.obj, c_float(score))
 		else:
-			lib.setScorePosition(self.obj, c_float(score), position)
+			NGSlib.setScorePosition(self.obj, c_float(score), position)
 
 	def extend_site(self, extendLeft, extendRight=None):
 		if extendRight is None:
-			lib.extendSite(self.obj, extendLeft)
+			NGSlib.extendSite(self.obj, extendLeft)
 		else:
-			lib.extendSiteLeftRight(self.obj, extendLeft, extendRight)
+			NGSlib.extendSiteLeftRight(self.obj, extendLeft, extendRight)
 
 	def trim_site(self, trimLeft, trimRight=None):
 		if trimRight is None:
-			lib.trimSite(self.obj, trimLeft)
+			NGSlib.trimSite(self.obj, trimLeft)
 		else:
-			lib.trimSiteLeftRight(self.obj, trimLeft, trimRight)
+			NGSlib.trimSiteLeftRight(self.obj, trimLeft, trimRight)
 
 	def does_overlap(self, toCompare):
-		return c_bool(lib.doesOverlap(self.obj, toCompare.obj))
+		return c_bool(NGSlib.doesOverlap(self.obj, toCompare.obj))
 
 	def return_overlapping(self, toCompare):
 		toReturn = Basic()
-		toReturn.obj = lib.returnOverlapping(self.obj, toCompare.obj)
+		toReturn.obj = NGSlib.returnOverlapping(self.obj, toCompare.obj)
 		return toReturn
 
 	def return_merge(self, toCompare):
 		toReturn = Basic()
-		toReturn.obj = lib.returnMerge(self.obj, toCompare.obj)
+		toReturn.obj = NGSlib.returnMerge(self.obj, toCompare.obj)
 		return toReturn
 
 if __name__=="__main__":

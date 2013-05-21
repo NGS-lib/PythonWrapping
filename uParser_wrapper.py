@@ -42,7 +42,8 @@ if __name__=="__main__":
         print (B.get_param("CHR",0))
     print A.get_previous_raw()
     print A.get_unformated_header()
-    A = uParser("/home/local/USHERBROOKE/nora2001/Work/class/NGS_testing/data/SAM/chr21_nucleosome_subset.sam","SAM")
+    print "BAM"
+    A = uParser("/home/local/USHERBROOKE/nora2001/Work/class/NGS_testing/data/BAM/H2AZ.bam","BAM")
     B = uToken()
     B = A.get_next_entry()
     print A.eof()
