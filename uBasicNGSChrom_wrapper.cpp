@@ -110,15 +110,19 @@ extern "C" {
 		return chrom->sumSiteSize();
 	}
 	// This throw a param_throw for some reason...
-	//void addNRandomSite(uBasicNGSChrom* chrom, int size, int count) {
-		//std::cout << "1" << std::endl;
-		//std::random_device rd;
-		//std::cout << "2" << std::endl;
-		//std::mt19937 gen(rd());
-		//std::cout << "3" << std::endl;
-		//chrom->addNRandomSite(size, count, gen, 0);
-		//std::cout << "4" << std::endl;
-	//}
+	void addNRandomSite_Chrom(uBasicNGSChrom* chrom, int size, int count, int sigma) {
+		cout <<"RD";
+		std::random_device rd;
+		cout <<"Before";
+		std::mt19937 gen(rd());
+		cout <<"Calling";
+		chrom->addNRandomSite(size, count, gen, sigma);
+	}
+
+	void writeWithWriter_Chrom(uBasicNGSChrom* chrom,uWriter* pWriter){
+        chrom->writeWithWriter(*pWriter);
+	}
+
 	long int count(uBasicNGSChrom* chrom) {
 		return chrom->count();
 	}
@@ -227,4 +231,22 @@ extern "C" {
 			throw runtime_error("getNotOverlappingCount: Invalid overlapType(" + overlapTypeString + ")");
 		}
 	}
+
+    /**< Wrap getSubset */
+    uBasicNGSChrom* getSubset_basicChrom(uBasicNGSChrom* pChrom,int pStart, int pEnd)
+    {
+        uBasicNGSChrom* returnChrom = new uBasicNGSChrom();
+        *returnChrom= ( pChrom->getSubset(pStart,pEnd) );
+        return returnChrom;
+    }
+    /**< Wraps removeSubsetre */
+    uBasicNGSChrom* removeSubset_basicChrom(uBasicNGSChrom* pChrom, int pStart, int pEnd)
+    {
+        uBasicNGSChrom* returnChrom = new uBasicNGSChrom();
+        *returnChrom= ( pExperiment->removeSubset(pStart,pEnd) );
+        return returnChrom;
+    }
+
+
+
 } // End of extern "C"

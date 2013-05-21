@@ -4,6 +4,7 @@
 # 2013-05-08
 
 from uBasicNGS_wrapper import *
+from uWriter_Wrapper import *
 from ctypes import *
 import os
 
@@ -73,8 +74,8 @@ class uBasicChrom(object):
 	def sum_site_size(self):
 		return self.lib.sumSiteSize(self.obj)
 
-#	def add_random_sites(self, size, count):
-#		self.lib.addNRandomSite(self.obj, count)
+	def add_random_sites(self, size, count, sigma=0):
+		self.lib.addNRandomSite_Chrom(self.obj, size,count,sigma)
 
 	def count(self):
 		return self.lib.count(self.obj)
@@ -108,19 +109,54 @@ class uBasicChrom(object):
 	def get_overlapping_count_region(self, start, end, overlapType = "OVERLAP_PARTIAL"):
 		return self.lib.getOverlappingCountRegion(self.obj, start, end, overlapType)
 
-	def get_subset(self, start, end, overlapType = "OVERLAP_PARTIAL"):
-		return self.lib.getSubset(self.obj, start, end, overlapType)
 
-#	def get_subsetCount(self, start, end, overlapType = "OVERLAP_PARTIAL"):
-#		return self.lib.getSubset(self.obj, start, end, overlapType)
-#
-#	def get_subset(self, start, end, overlapType = "OVERLAP_PARTIAL"):
-#		return self.lib.getSubset(self.obj, start, end, overlapType)
-#
-#	def get_subset(self, start, end, overlapType = "OVERLAP_PARTIAL"):
-#		return self.lib.getSubset(self.obj, start, end, overlapType)
+	def get_subset_count(self,start,end):
+		return self.lib.getSubsetCount_basicChrom(self.obj, start, end)
 
-if __name__=="__main__":
+	def get_subset(self, start, end):
+		toReturn =uBasicChrom()
+		toReturn.obj= self.lib.getSubset_basicChrom(self.obj, start, end)
+		return toReturn
+	def remove_subset(self, start, end):
+		toReturn = uBasicChrom()
+		toReturn.obj =self.lib.removeSubset_basicChrom(self.obj, start, end)
+		return 
+	def get_distinct(self,start,end):
+		toReturn =uBasicChrom()
+		toReturn.obj = self.lib.getDistinct_basicChrom(self.obj,start,end)
+		return toReturn
+	def remove_distinct(self,start,end):
+		toReturn =uBasicChrom()
+		toReturn.obj = self.lib.removeDistinct_basicChrom(self.obj,start,end)
+		return toReturn
+
+	def get_subsetCount(self, start, end):
+		return self.lib.getSubsetCount_basicChrom(self.obj, start, end)
+
+	def write_with_writer(self,writer):
+		self.lib.writeWithWriter_Chrom(self.obj,writer.obj)
+
+	def sort_sites(self):
+		return self.lib.sortSites_basicChrom(self.obj)
+
+
+
+def subsetTests():
+
+	chrom = uBasicChrom()
+	chrom.sort_sites()
+	chrom.get_subset(1000,2000)
+	print chrom.get_subset_count(1000,2000)
+	chrom.get_subset(1000,2000)
+	print "remove"
+	chrom.remove_subset(1000, 2000)
+	print "get"
+	chrom.get_distinct(1000,2000)
+	print "remove"
+	chrom.remove_distinct(1000,2000)
+	print "after"
+
+def ManyTests():
 	print "--------------------------"
 	print "TESTS: uBasicNGSChrom"
 	print "--------------------------"
@@ -203,11 +239,14 @@ if __name__=="__main__":
 	print "sum: " + str(chromStats.sum_site_size())
 	print "count: " + str(chromStats.count())
 
-	#print "**** Tests for adding random sites"
-	#chromAddRandom = Chrom("chrY")
-	#chromAddRandom.add_random_sites(100, 10)
-	#print "Count: " + str(chromAddRandom.count())
+	print "**** Tests for adding random sites"
 
+	chromAddRandom = uBasicChrom("chrY")
+	chromAddRandom.set_chr_size(100000)
+	chromAddRandom.add_random_sites(100, 10,10)
+	print "Count: " + str(chromAddRandom.count())
+	writer= uWriter("","BEDGRAPH")
+	chromAddRandom.write_with_writer(writer)
 	print ""
 	print "**** Tests for get_overlapping/get_overlapping_count (other Chrom)"
 	chromOverlap1 = uBasicChrom("chr1")
@@ -311,3 +350,8 @@ if __name__=="__main__":
 	chromNotOverlapResult = chromNotOverlap1.get_not_overlapping(chromNotOverlap5)
 	print "Result Count: " + str(chromNotOverlapResult.count())
 #	print "get_not_overlapCount: " + str(chromNotOverlap1.get_not_overlapping_count(chromNotOverlap5))
+if __name__=="__main__":
+	subsetTests()
+
+
+
