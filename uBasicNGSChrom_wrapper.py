@@ -7,6 +7,7 @@ from uBasicNGS_wrapper import *
 from ctypes import *
 import os
 
+
 class uBasicChrom(object):
 	def __init__(self, chromosomeName = None, chromosomeSize = None):
 		self.lib = cdll.LoadLibrary(os.environ.get('NGSWRAPPERLIB'))
@@ -24,6 +25,7 @@ class uBasicChrom(object):
 
 	def get_copy(self):
 		toReturn = uBasicChrom()
+
 		toReturn.obj = self.lib.getCopyChrom(self.obj)
 		return toReturn
 
@@ -92,6 +94,11 @@ class uBasicChrom(object):
 		toReturn = self.lib.getOverlappingChromRegion(self.obj, start, end, overlapType)
 		return toReturn
 
+	def get_not_overlapping(self, otherChrom, overlapType = "OVERLAP_PARTIAL"):
+		toReturn = uBasicChrom()
+		toReturn.obj = self.lib.getNotOverlapping(self.obj, otherChrom.obj, overlapType)
+		return toReturn
+
 	def get_overlapping_count(self, otherChrom, overlapType = "OVERLAP_PARTIAL"):
 		return self.lib.getOverlappingCount(self.obj, otherChrom.obj, overlapType)
 
@@ -100,6 +107,18 @@ class uBasicChrom(object):
 
 	def get_overlapping_count_region(self, start, end, overlapType = "OVERLAP_PARTIAL"):
 		return self.lib.getOverlappingCountRegion(self.obj, start, end, overlapType)
+
+	def get_subset(self, start, end, overlapType = "OVERLAP_PARTIAL"):
+		return self.lib.getSubset(self.obj, start, end, overlapType)
+
+#	def get_subsetCount(self, start, end, overlapType = "OVERLAP_PARTIAL"):
+#		return self.lib.getSubset(self.obj, start, end, overlapType)
+#
+#	def get_subset(self, start, end, overlapType = "OVERLAP_PARTIAL"):
+#		return self.lib.getSubset(self.obj, start, end, overlapType)
+#
+#	def get_subset(self, start, end, overlapType = "OVERLAP_PARTIAL"):
+#		return self.lib.getSubset(self.obj, start, end, overlapType)
 
 if __name__=="__main__":
 	print "--------------------------"
@@ -123,11 +142,13 @@ if __name__=="__main__":
 	print "chr: " + chrom_size.get_chr()
 	print "chrSize: " + str(chrom_size.get_chrom_size())
 
+	print ""
 	print "**** Tests for get_copy"
 	chromCopy = chromNameSize.get_copy()
 	print "chr: " + chromCopy.get_chr()
 	print "chrSize: " + str(chromCopy.get_chrom_size())
 
+	print ""
 	print "**** Tests for add_data functions"
 	chromAddData = uBasicChrom("chr3")
 	basicAddData = uBasic("chr3", 100, 200)
@@ -135,6 +156,7 @@ if __name__=="__main__":
 	print "chr: " + chromAddData.get_chr()
 	print "chrSize: " + str(chromAddData.get_chrom_size())
 
+	print ""
 	print "**** Tests for infer_chr_size "
 	chromInfer = uBasicChrom("chr3")
 	chromInfer.add_data(uBasic("chr3", 1000, 3000))
@@ -144,6 +166,7 @@ if __name__=="__main__":
 	chromInfer = uBasicChrom()
 	print "chrSize (empty):" + str(chromInfer.get_chrom_size())
 
+	print ""
 	print "**** Tests for the divide_items_into_n_bins function"
 	chromDivide = uBasicChrom("chr4")
 	chromDivide.add_data(uBasic("chr4", 1000, 3000))
@@ -151,6 +174,7 @@ if __name__=="__main__":
 	chromDivide.divide_items_into_n_bins(10, "IGNORE")
 	print "count (after): " + str(chromDivide.count())
 
+	print ""
 	print "**** Tests for the divideItemsIntoBinofSize function"
 	chromDivide = uBasicChrom("chr4")
 	chromDivide.add_data(uBasic("chr4", 1000, 2000))
@@ -158,6 +182,7 @@ if __name__=="__main__":
 	chromDivide.divide_items_into_bin_of_size(20, "IGNORE")
 	print "count (after): " + str(chromDivide.count())
 
+	print ""
 	print "**** Tests for the function getSite"
 	chromGetSite = uBasicChrom("chr1")
 	chromGetSite.add_data(uBasic("chr1", 300, 500))
@@ -166,6 +191,7 @@ if __name__=="__main__":
 	print "getSite: start: " + str(aSite.get_start())
 	print "getSite: end: " + str(aSite.get_end())
 
+	print ""
 	print "**** Tests for the statistic functions"
 	chromStats = uBasicChrom("chrX")
 	chromStats.add_data(uBasic("chrX", 300, 500))
@@ -182,6 +208,7 @@ if __name__=="__main__":
 	#chromAddRandom.add_random_sites(100, 10)
 	#print "Count: " + str(chromAddRandom.count())
 
+	print ""
 	print "**** Tests for get_overlapping/get_overlapping_count (other Chrom)"
 	chromOverlap1 = uBasicChrom("chr1")
 	chromOverlap1.add_data(uBasic("chr1", 100, 200))
@@ -220,6 +247,7 @@ if __name__=="__main__":
 	print "Result Count: " + str(chromOverlapResult.count())
 	print "get_overlapCount: " + str(chromOverlap1.get_overlapping_count(chromOverlap5))
 
+	print ""
 	print "**** Tests for get_overlapping/get_overlapping_count (basic)"
 	chromBasicOverlap1 = uBasicChrom("chr2")
 	chromBasicOverlap1.add_data(uBasic("chr2", 100, 200))
@@ -230,17 +258,56 @@ if __name__=="__main__":
 	chromOverlapResult = chromBasicOverlap1.get_overlapping_basic(basicOverlap)
 	print "Result Count: " + str(chromOverlapResult.count())
 	print "get_overlapCount: " + str(chromBasicOverlap1.get_overlapping_count_basic(basicOverlap))
-	#aSite = chromOverlapResult.getSite(0)
-	#print "getSite: chr: " + aSite.get_chr()
-	#print "getSite: start: " + str(aSite.get_start())
-	#print "getSite: end: " + str(aSite.get_end())
+	aSite = chromOverlapResult.get_site(0)
+	print "get_site: chr: " + aSite.get_chr()
+	print "get_site: start: " + str(aSite.get_start())
+	print "get_site: end: " + str(aSite.get_end())
 
+	print ""
 	print "**** Tests for get_overlapping/get_overlapping_count (region)"
 	chromRegionOverlap1 = uBasicChrom("chr3")
 	chromRegionOverlap1.add_data(uBasic("chr3", 100, 200))
 	chromRegionOverlap1.add_data(uBasic("chr3", 400, 800))
 	chromRegionOverlap1.add_data(uBasic("chr3", 1000, 1200))
 	chromOverlapResult = chromRegionOverlap1.get_overlapping_region(50, 900)
-	print "chromOverlapResult; " + str(chromOverlapResult)
-	#print "Result Count: " + str(chromOverlapResult.count())
+	print "Result Count: " + str(chromOverlapResult.count())
 	print "get_overlapCount: " + str(chromBasicOverlap1.get_overlapping_count_region(50, 900))
+
+	print ""
+	print "**** Tests for get_not_overlapping (other Chrom)"
+	chromNotOverlap1 = Chrom("chr1")
+	chromNotOverlap1.add_data(Basic("chr1", 100, 200))
+	chromNotOverlap1.add_data(Basic("chr1", 400, 800))
+	chromNotOverlap1.add_data(Basic("chr1", 1000, 1200))
+	print "Different chrom:"
+	chromNotOverlap2 = Chrom("chr2")
+	chromNotOverlap2.add_data(Basic("chr2", 100, 200))
+	chromNotOverlap2.add_data(Basic("chr2", 400, 800))
+	chromNotOverlap2.add_data(Basic("chr2", 1000, 1200))
+	chromNotOverlapResult = chromNotOverlap1.get_not_overlapping(chromNotOverlap2)
+	print "Result Count: " + str(chromNotOverlapResult.count())
+#	print "get_not_overlapCount: " + str(chromNotOverlap1.get_not_overlapping_count(chromNotOverlap2))
+	print "No overlap:"
+	chromNotOverlap3 = Chrom("chr1")
+	chromNotOverlap3.add_data(Basic("chr1", 1300, 1400))
+	chromNotOverlap3.add_data(Basic("chr1", 1400, 1800))
+	chromNotOverlap3.add_data(Basic("chr1", 11000, 11200))
+	chromNotOverlapResult = chromNotOverlap1.get_not_overlapping(chromNotOverlap3)
+	print "Result Count: " + str(chromNotOverlapResult.count())
+#	print "get_not_overlapCount: " + str(chromNotOverlap1.get_not_overlapping_count(chromNotOverlap3))
+	print "Some overlap:"
+	chromNotOverlap4 = Chrom("chr1")
+	chromNotOverlap4.add_data(Basic("chr1", 100, 150))
+	chromNotOverlap4.add_data(Basic("chr1", 400, 900))
+	chromNotOverlap4.add_data(Basic("chr1", 11000, 11200))
+	chromNotOverlapResult = chromNotOverlap1.get_not_overlapping(chromNotOverlap4)
+	print "Result Count: " + str(chromNotOverlapResult.count())
+#	print "get_overlapCount: " + str(chromNotOverlap1.get_not_overlapping_count(chromNotOverlap4))
+	print "All overlap: "
+	chromNotOverlap5 = Chrom("chr1")
+	chromNotOverlap5.add_data(Basic("chr1", 100, 200))
+	chromNotOverlap5.add_data(Basic("chr1", 400, 800))
+	chromNotOverlap5.add_data(Basic("chr1", 1000, 1200))
+	chromNotOverlapResult = chromNotOverlap1.get_not_overlapping(chromNotOverlap5)
+	print "Result Count: " + str(chromNotOverlapResult.count())
+#	print "get_not_overlapCount: " + str(chromNotOverlap1.get_not_overlapping_count(chromNotOverlap5))
