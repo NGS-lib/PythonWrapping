@@ -47,7 +47,7 @@ token: $(TARGET)
 
 .PHONY: clean
 clean:
-	rm -f foo.o $(TARGET)
+	rm -f $(TARGET)
 
 $(TARGET): $(OBJECTS)
 	$(GXX) $(LFLAGS) -o $(TARGET) $^ $(NGS_INGLUDE)

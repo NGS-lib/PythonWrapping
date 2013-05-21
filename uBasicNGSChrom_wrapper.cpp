@@ -212,4 +212,19 @@ extern "C" {
 			throw runtime_error("getOverlappingCount: Invalid overlapType(" + overlapTypeString + ")");
 		}
 	}
+	uBasicNGSChrom* getNotOverlapping(uBasicNGSChrom* chrom, uBasicNGSChrom* otherChrom, char* overlapType) {
+		string overlapTypeString(overlapType);
+		if (overlapTypeString == "OVERLAP_PARTIAL") {
+			return new uBasicNGSChrom(chrom->getNotOverlapping(*otherChrom, OverlapType::OVERLAP_PARTIAL));
+		}
+		else if (overlapTypeString == "OVERLAP_COMPLETE") {
+			return new uBasicNGSChrom(chrom->getNotOverlapping(*otherChrom, OverlapType::OVERLAP_COMPLETE));
+		}
+		else if (overlapTypeString == "OVERLAP_CENTER") {
+			return new uBasicNGSChrom(chrom->getNotOverlapping(*otherChrom, OverlapType::OVERLAP_CENTER));
+		}
+		else {
+			throw runtime_error("getNotOverlappingCount: Invalid overlapType(" + overlapTypeString + ")");
+		}
+	}
 } // End of extern "C"
