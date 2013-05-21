@@ -5,116 +5,127 @@
 import ctypes
 from ctypes import *
 import os
-libNGS = cdll.LoadLibrary(os.environ.get('NGSWRAPPERLIB'))
-from uBasicNGS_wrapper import Basic
-from uParser_wrapper import uParser
-from uWriter_Wrapper import uWriter
+
+from uBasicNGS_wrapper import *
+from uBasicNGSChrom_wrapper import *
+from uParser_wrapper import *
+from uWriter_Wrapper import *
 
 class uBasicExp(object):
 
 	def __init__(self):
-		self.obj = libNGS.new_basicExperiment()
+		self.libNGS = cdll.LoadLibrary(os.environ.get('NGSWRAPPERLIB'))
+		self.obj = self.libNGS.new_basicExperiment()
 
 	def __del__(self):
-		libNGS.delete_basicExperiment(self.obj)
+		self.libNGS.delete_basicExperiment(self.obj)
 
 	def is_chrom(self,chrom):
-		libNGS.isChrom_basicExperiment.restype=ctypes.c_bool
-		return libNGS.isChrom_basicExperiment(self.obj,chrom)
+		self.libNGS.isChrom_basicExperiment.restype=ctypes.c_bool
+		return self.libNGS.isChrom_basicExperiment(self.obj,chrom)
 
 	def set_chr_size(self,chrom,size):
-		libNGS.setChrSize_basicExperiment(self.obj,chrom,size)
+		self.libNGS.setChrSize_basicExperiment(self.obj,chrom,size)
 
 	def get_chr_size(self,chrom):
-		return libNGS.getChrSize_basicExperiment(self.obj,chrom)
+		return self.libNGS.getChrSize_basicExperiment(self.obj,chrom)
 
 	def removeChr(self,chrom):
-		libNGS.removeChr_basicExperiment(self.obj,chrom)
+		self.libNGS.removeChr_basicExperiment(self.obj,chrom)
 
 	def count(self):
-		return libNGS.count_basicExperiment(self.obj)
+		return self.libNGS.count_basicExperiment(self.obj)
 
 	def sort_sites(self):
-		libNGS.sortSites_basicExperiment(self.obj)
+		self.libNGS.sortSites_basicExperiment(self.obj)
 
 	def is_sorted(self):
-		libNGS.isSorted_basicExperiment.restype=ctypes.c_bool
-		return libNGS.isSorted_basicExperiment(self.obj)
+		self.libNGS.isSorted_basicExperiment.restype=ctypes.c_bool
+		return self.libNGS.isSorted_basicExperiment(self.obj)
 
 	def add_data_unit(self, data):
-		libNGS.addDataUnit_basicExperiment(self.obj,data.obj)
+		self.libNGS.addDataUnit_basicExperiment(self.obj,data.obj)
 	def add_data_chrom(self, data):
-		libNGS.addDataChrom_basicExperiment(self.obj,data.obj)
+		self.libNGS.addDataChrom_basicExperiment(self.obj,data.obj)
 
 	def load_with_parser(self, parser,count):
-		libNGS.loadWithParser_basicExperiment(self.obj,parser.obj,count)
+		self.libNGS.loadWithParser_basicExperiment(self.obj,parser.obj,count)
 
 	def load_with_parser_path(self, path,type,count):
-		libNGS.loadPathWithParser_basicExperiment(self.obj,path,type,count)
+		self.libNGS.loadPathWithParser_basicExperiment(self.obj,path,type,count)
 
 	def infer_chr_size(self):
-		libNGS.inferChrSize_basicExperiment(self.obj)
+		self.libNGS.inferChrSize_basicExperiment(self.obj)
 
 	def write_with_writer(self, writer):
-		libNGS.writeWithWriter_basicExperiment(self.obj, writer.obj)
+		self.libNGS.writeWithWriter_basicExperiment(self.obj, writer.obj)
 
 	def get_site(self,chr,pos):
-		toReturn =Basic()
-		toReturn.obj= libNGS.getSite_basicExperiment(self.obj,chr,pos)
+		toReturn =uBasic()
+		toReturn.obj= self.libNGS.getSite_basicExperiment(self.obj,chr,pos)
 		return toReturn
 
 	def remove_site(self,chr,pos):
-		libNGS.removeSite_basicExperiment(self.obj,chr,pos)
+		self.libNGS.removeSite_basicExperiment(self.obj,chr,pos)
 
 	def find_preceding_site(self,chr,pos):
-		return libNGS.findPrecedingSitePos_basicExperiment(self.obj,chr,pos)
+		return self.libNGS.findPrecedingSitePos_basicExperiment(self.obj,chr,pos)
 	
 	def find_next_site(self,chr,pos):
-		return libNGS.findNextSitePos_basicExperiment(self.obj,chr,pos)
+		return self.libNGS.findNextSitePos_basicExperiment(self.obj,chr,pos)
 
 
 	def get_subset_count(self,chr,start,end):
-		return libNGS.getSubsetCount_region_basicExperiment(self.obj,chr,start,end)
+		return self.libNGS.getSubsetCount_region_basicExperiment(self.obj,chr,start,end)
 
 	def get_subset(self,chr,start,end):
-		#toReturn =()
-		#toReturn.obj= libNGS.getSubset_basicExperiment(self.obj,chr,start,end)
+		toReturn = uBasicChrom()
+		toReturn.obj= self.libNGS.getSubset_basicExperiment(self.obj,chr,start,end)
 		return toReturn
 
 	def remove_subset(self,chr,start,end):
 		toReturn =uBasicExp()
-		toReturn.obj = libNGS.removeSubset_basicExperiment(self.obj,chr,start,end)
+		toReturn.obj = self.libNGS.removeSubset_basicExperiment(self.obj,chr,start,end)
 		return toReturn
 #Second tests from here
 
 	def get_overlapping_from_exp(self,exp):
 		toReturn =uBasicExp()
-		toReturn.obj = libNGS.getOverlapping_fromExp_basicExperiment(self.obj,exp.obj)
+		toReturn.obj = self.libNGS.getOverlapping_fromExp_basicExperiment(self.obj,exp.obj)
 		return toReturn
 
 	def get_overlapping_from_chrom(self,chrom):
 		toReturn =uBasicExp()
-		toReturn.obj = libNGS.getOverlapping_fromChrom_basicExperiment(self.obj,chrom)
+		toReturn.obj = self.libNGS.getOverlapping_fromChrom_basicExperiment(self.obj,chrom)
 		return toReturn
 
 	def get_overlapping_from_region(self,chr, start, end):
 		toReturn =uBasicExp()
-		toReturn.obj = libNGS.getOverlapping_fromRegion_basicExperiment(self.obj,chr,start,end)
+		toReturn.obj = self.libNGS.getOverlapping_fromRegion_basicExperiment(self.obj,chr,start,end)
 		return toReturn
 
 	def get_distinct(self,chr,start,end):
 		toReturn =uBasicExp()
-		toReturn.obj = libNGS.getDistinct_basicExperiment(self.obj,chr,start,end)
+		toReturn.obj = self.libNGS.getDistinct_basicExperiment(self.obj,chr,start,end)
 		return toReturn
 
 	def remove_distinct(self,chr,start,end):
 		toReturn =uBasicExp()
-		toReturn.obj = libNGS.removeDistinct_basicExperiment(self.obj,chr,start,end)
+		toReturn.obj = self.libNGS.removeDistinct_basicExperiment(self.obj,chr,start,end)
 		return toReturn
 
 	def get_chr_count(self):
-		return libNGS.getChrCount_basicExperiment(self.obj)
+		return self.libNGS.getChrCount_basicExperiment(self.obj)
 
+
+
+def returnChromTests():
+
+	bedParser = uParser("/home/local/USHERBROOKE/nora2001/Work/class/NGS_testing/data/BED/bedH2AZ.bed","BED")
+	A = uBasicExp()
+	A.load_with_parser(bedParser,5)
+	achrom= get_subset
+	
 
 def firstTests():
 	from uBasicNGS_wrapper import uBasic
@@ -124,7 +135,7 @@ def firstTests():
 	print "Make empty BasicExp"
 	A = uBasicExp()
 
-	B= Basic("chr2",100,200)
+	B= uBasic("chr2",100,200)
 	print "Test is Chrom"
 	if (A.is_chrom("chr1")==0):
 		print "Chrom check ok"
@@ -134,7 +145,7 @@ def firstTests():
 	print A.count()
 	print "Test add Data"	
 	A.add_data_unit(B)
-	A.add_data_unit(Basic("chr2",50,100))
+	A.add_data_unit(uBasic("chr2",50,100))
 	print A.count()
 	if (A.is_chrom("chr2")==1):
 		print "Chrom check2 ok"
@@ -154,7 +165,7 @@ def firstTests():
 	print A.count()
 	writer= uWriter("","BEDGRAPH")
 	B= A.get_site("chr20",2)
-	print B.getChr(),B.getStart(),B.getEnd()
+	print B.get_chr(),B.get_start(),B.get_end()
 	print A.count()
 	A.removeChr("chr20")
 	print A.count()
@@ -190,9 +201,6 @@ def firstTests():
 	print A.get_chr_size("chr2")
 
 def secondTests():
-	from uBasicNGS_wrapper import Basic
-	from uParser_wrapper import uParser
-	from uWriter_Wrapper import uWriter
 	writer= uWriter("","BEDGRAPH")
 	bedParser = uParser("/home/local/USHERBROOKE/nora2001/Work/class/NGS_testing/data/BED/bedH2AZ.bed","BED")
 	A = uBasicExp()
@@ -233,9 +241,10 @@ def secondTests():
 	print F.count()
 	F.write_with_writer(writer)
 	print "ChrCount", F.get_chr_count()
+	print "Get subset no chrom"
 	print A.get_subset_count("chr22",250000, 257700)
-	deleteA= Basic()
+	deleteA= uBasic()
 if __name__=="__main__":
-	#firstTests()
+	firstTests()
 	secondTests()
 	

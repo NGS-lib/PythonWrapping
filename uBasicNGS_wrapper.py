@@ -7,48 +7,46 @@ import ctypes
 from ctypes import *
 import os
 
-NGSlib = cdll.LoadLibrary(os.environ.get('NGSWRAPPERLIB'))
 # Tests with restype
-NGSlib.getScore.restype = ctypes.c_float
-
-
-class Basic(object):
+class uBasic(object):
 	def __init__(self, chr="", start=1, end=None, strand=None, score=None):
+		self.NGSlib = cdll.LoadLibrary(os.environ.get('NGSWRAPPERLIB'))
+		self.NGSlib.getScore.restype = ctypes.c_float
 		if end is None:
 			end = start
 		if strand is None:
 			strand = "FORWARD"
-		self.obj = NGSlib.New_basic(chr, start, end, strand)
+		self.obj = self.NGSlib.New_basic(chr, start, end, strand)
 		if score is not None:
-			NGSlib.setScore(self.obj, c_float(score))
+			self.NGSlib.setScore(self.obj, c_float(score))
 
 	def __del__(self):
-		NGSlib.delete_basic(self.obj)
+		self.NGSlib.delete_basic(self.obj)
 
 	def get_chr(self):
-		return c_char_p(NGSlib.getChrBasic(self.obj)).value
+		return c_char_p(self.NGSlib.getChrBasic(self.obj)).value
 
 	def get_strand(self):
-		return c_char_p(NGSlib.getStrand(self.obj)).value
+		return c_char_p(self.NGSlib.getStrand(self.obj)).value
 
 	def get_start(self):
-		return NGSlib.getStart(self.obj)
+		return self.NGSlib.getStart(self.obj)
 
 	def get_end(self):
-		return NGSlib.getEnd(self.obj)
+		return self.NGSlib.getEnd(self.obj)
 
 	def get_length(self):
-		return NGSlib.getLength(self.obj)
+		return self.NGSlib.getLength(self.obj)
 
 	def get_score(self, position=None):
-		lib.getScore.restype = c_float
+		self.NGSlib.getScore.restype = c_float
 		if position is None:
-			return NGSlib.getScore(self.obj)
+			return self.NGSlib.getScore(self.obj)
 		else:
-			return NGSlib.getScorePosition(self.obj, position)
+			return self.NGSlib.getScorePosition(self.obj, position)
 
 	def get_score_count(self):
-		return NGSlib.getScoreCount(self.obj)
+		return self.NGSlib.getScoreCount(self.obj)
 
 	def get_score_list(self):
 		scoreList = []
@@ -57,88 +55,88 @@ class Basic(object):
 		return scoreList
 
 	def is_reverse(self):
-		return c_bool(NGSlib.isReverse(self.obj))
+		return c_bool(self.NGSlib.isReverse(self.obj))
 
 	def set_chr(self, chr):
-		NGSlib.setChr(self.obj, chr)
+		self.NGSlib.setChr(self.obj, chr)
 
 	def set_strand(self, strand):
-		NGSlib.setStrand(self.obj, strand)
+		self.NGSlib.setStrand(self.obj, strand)
 
 	def set_start(self, start):
-		NGSlib.setStart(self.obj, start)
+		self.NGSlib.setStart(self.obj, start)
 
 	def set_end(self, end):
-		NGSlib.setEnd(self.obj, end)
+		self.NGSlib.setEnd(self.obj, end)
 
 	def set_start_end(self, start, end):
-		NGSlib.setStartEnd(self.obj, start, end)
+		self.NGSlib.setStartEnd(self.obj, start, end)
 
 	def set_score(self, score, position=None):
 		if position is None:
-			NGSlib.setScore(self.obj, c_float(score))
+			self.NGSlib.setScore(self.obj, c_float(score))
 		else:
-			NGSlib.setScorePosition(self.obj, c_float(score), position)
+			self.NGSlib.setScorePosition(self.obj, c_float(score), position)
 
 	def extend_site(self, extendLeft, extendRight=None):
 		if extendRight is None:
-			NGSlib.extendSite(self.obj, extendLeft)
+			self.NGSlib.extendSite(self.obj, extendLeft)
 		else:
-			NGSlib.extendSiteLeftRight(self.obj, extendLeft, extendRight)
+			self.NGSlib.extendSiteLeftRight(self.obj, extendLeft, extendRight)
 
 	def trim_site(self, trimLeft, trimRight=None):
 		if trimRight is None:
-			NGSlib.trimSite(self.obj, trimLeft)
+			self.NGSlib.trimSite(self.obj, trimLeft)
 		else:
-			NGSlib.trimSiteLeftRight(self.obj, trimLeft, trimRight)
+			self.NGSlib.trimSiteLeftRight(self.obj, trimLeft, trimRight)
 
 	def does_overlap(self, toCompare):
-		return c_bool(NGSlib.doesOverlap(self.obj, toCompare.obj))
+		return c_bool(self.NGSlib.doesOverlap(self.obj, toCompare.obj))
 
 	def return_overlapping(self, toCompare):
-		toReturn = Basic()
-		toReturn.obj = NGSlib.returnOverlapping(self.obj, toCompare.obj)
+		toReturn = uBasic()
+		toReturn.obj = self.NGSlib.returnOverlapping(self.obj, toCompare.obj)
 		return toReturn
 
 	def return_merge(self, toCompare):
-		toReturn = Basic()
-		toReturn.obj = NGSlib.returnMerge(self.obj, toCompare.obj)
+		toReturn = uBasic()
+		toReturn.obj = self.NGSlib.returnMerge(self.obj, toCompare.obj)
 		return toReturn
 
 if __name__=="__main__":
 	# Tests with the uBasicNGS
 	print "**** Tests constructor basic"
-	b = Basic()
+	b = uBasic()
 	print "Chr: " + b.get_chr()
 	print "Start: " + str(b.get_start())
 	print "End: " + str(b.get_end())
 	print "Strand: " + str(b.get_strand())
 	print "**** Tests constructor chr"
-	b = Basic("chr1")
+	b = uBasic("chr1")
 	print "Chr: " + b.get_chr()
 	print "Start: " + str(b.get_start())
 	print "End: " + str(b.get_end())
 	print "Strand: " + str(b.get_strand())
 	print "**** Tests constructor start"
-	b = Basic("chr1", 1000)
+	b = uBasic("chr1", 1000)
 	print "Chr: " + b.get_chr()
 	print "Start: " + str(b.get_start())
 	print "End: " + str(b.get_end())
 	print "Strand: " + str(b.get_strand())
 	print "**** Tests constructor end"
-	b = Basic("chr1", 1000, 1200)
+	b = uBasic("chr1", 1000, 1200)
 	print "Chr: " + b.get_chr()
 	print "Start: " + str(b.get_start())
 	print "End: " + str(b.get_end())
 	print "Strand: " + str(b.get_strand())
 	print "**** Tests constructor strand"
-	b = Basic("chr1", 1000, 1200, "-")
+	b = uBasic("chr1", 1000, 1200, "-")
 	print "Chr: " + b.get_chr()
 	print "Start: " + str(b.get_start())
 	print "End: " + str(b.get_end())
 	print "Strand: " + str(b.get_strand())
 	print "**** Tests constructor score"
-	b = Basic("chr1", 1000, 1200, "-", 2.4)
+	b = uBasic("chr1", 1000, 1200, "-", 2.4)
 	print "Chr: " + b.get_chr()
 	print "Start: " + str(b.get_start())
 	print "End: " + str(b.get_end())
@@ -146,7 +144,7 @@ if __name__=="__main__":
 	print "Score: " + str(b.get_score())
 
 	print "**** Misc tests"
-	b = Basic("chr1", 100, 200)
+	b = uBasic("chr1", 100, 200)
 	print b.get_chr()
 	b.set_chr("chr2")
 	print b.get_chr()
@@ -207,9 +205,9 @@ if __name__=="__main__":
 	print "ScoreList: " + str(b.get_score_list())
 
 	print "**** Tests for does_overlap"
-	b2 = Basic("chr2", 100, 200)
-	b3 = Basic("chr2", 201, 300)
-	b4 = Basic("chr1", 100, 200)
+	b2 = uBasic("chr2", 100, 200)
+	b3 = uBasic("chr2", 201, 300)
+	b4 = uBasic("chr1", 100, 200)
 	print "does overlap: " + str(b.does_overlap(b2))
 	print "does not overlap: " + str(b.does_overlap(b3))
 	print "does overlap not same chr: " + str(b.does_overlap(b4))

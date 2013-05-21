@@ -18,7 +18,7 @@ extern "C" {
 		return new uBasicNGSChrom(chrName, chrSize);
 	}
 
-	void delete_basicChrom(uBasicNGSChrom* chrom) {
+	void delete_basicChrom(uBasicNGSChrom* chrom){
 		delete chrom;
 		chrom = NULL;
 	}
