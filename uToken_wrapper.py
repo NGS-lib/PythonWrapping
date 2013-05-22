@@ -4,29 +4,27 @@
 
 
 from ctypes import *
-stdc=cdll.LoadLibrary("libc.so.6")
-stdcpp=cdll.LoadLibrary("libstdc++.so.6")
-libNGS = cdll.LoadLibrary("/home/local/USHERBROOKE/nora2001/Work/libs/release/libpyThonWrap.so")
+import os
 
 class uToken:
-
     def __init__(self):
-        self.obj = libNGS.new_token()
+	self.libNGS = cdll.LoadLibrary(os.environ.get('NGSWRAPPERLIB'))
+        self.obj = self.libNGS.new_token()
 
     def __del__(self):
-    	libNGS.delete_token(self.obj)
+    	self.libNGS.delete_token(self.obj)
 
     def print_token(self):
-        libNGS.print_token(self.obj)
+        self.libNGS.print_token(self.obj)
 
     def is_param_set(self, param, pos=0):
-        return libNGS.isParamSet(self.obj,param, pos)
+        return self.libNGS.isParamSet(self.obj,param, pos)
     def param_count(self, param):
-        return libNGS.paramCount(self.obj,param)
+        return self.libNGS.paramCount(self.obj,param)
 
     def get_param(self,param,pos=0):
-    	libNGS.getParam.restype=c_char_p
-    	return libNGS.getParam(self.obj,param,pos)
+    	self.libNGS.getParam.restype=c_char_p
+    	return self.libNGS.getParam(self.obj,param,pos)
 
 if __name__=="__main__":
 	A = uToken()
