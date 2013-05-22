@@ -1,7 +1,9 @@
+NGSPATH?=/usr/lib
+SHARED_NGS=$(LIBPATH)/libNGS.so
 GXX=g++
-NGS_INGLUDE=-LNGS
+NGS_INGLUDE=-s $(SHARED_NGS)
 CFLAGS=-O3 -Wall -std=c++11 -c -fPIC
-LFLAGS=-shared -Wl,-soname,$(TARGET) -lz
+LFLAGS=-shared
 
 OBJECTS+=uBasicNGS_wrapper.o
 OBJECTS+=uBasicNGSChrom_wrapper.o
@@ -49,10 +51,10 @@ token: $(TARGET)
 
 .PHONY: clean
 clean:
-	rm -f $(TARGET)
+	rm -f $(TARGET) *.o
 
 $(TARGET): $(OBJECTS)
-	$(GXX) $(LFLAGS) -o $(TARGET) $^ $(NGS_INGLUDE)
+	$(GXX) $(LFLAGS) $^ -o $(TARGET) $(NGS_INGLUDE)
 
 %.o: %.cpp
 	$(GXX) $(CFLAGS) $(INCLUDE) $< -o $@
