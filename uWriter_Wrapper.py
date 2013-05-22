@@ -1,6 +1,5 @@
 from ctypes import *
 import os
-print os.environ.get('NGSWRAPPERLIB')
 from uToken_wrapper import uToken
 
 class uWriter:

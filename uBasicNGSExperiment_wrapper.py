@@ -120,7 +120,7 @@ class uBasicExp(object):
 
 
 def returnChromTests():
-
+	
 	bedParser = uParser("/home/local/USHERBROOKE/nora2001/Work/class/NGS_testing/data/BED/bedH2AZ.bed","BED")
 	A = uBasicExp()
 	A.load_with_parser(bedParser,5)
@@ -246,6 +246,7 @@ def secondTests():
 	print A.get_subset_count("chr22",250000, 257700)
 	deleteA= uBasic()
 if __name__=="__main__":
+	print "These tests will fail. Please manually point the lines loading with a Parser to a valid bed file
 	firstTests()
 	secondTests()
 	
