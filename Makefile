@@ -1,9 +1,7 @@
 GXX=g++
-NGS_PATH=/usr/include
-NGS_INGLUDE=/usr/lib/libNGS.a -Wl,--no-whole-archive
+NGS_INGLUDE=-LNGS
 CFLAGS=-O3 -Wall -std=c++11 -c -fPIC
 LFLAGS=-shared -Wl,-soname,$(TARGET) -lz
-INCLUDE=-I$(NGS_PATH) -I$(NGS_PATH)/NGS
 
 OBJECTS+=uBasicNGS_wrapper.o
 OBJECTS+=uBasicNGSChrom_wrapper.o
