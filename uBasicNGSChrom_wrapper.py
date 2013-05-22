@@ -31,7 +31,7 @@ class uBasicChrom(object):
 		return toReturn
 
 	def set_chr_size(self, size):
-		return self.lib.setChromSize(self.obj, size)
+		self.lib.setChromSize(self.obj, size)
 
 	def add_data(self, basicNGS):
 		self.lib.addData(self.obj, basicNGS.obj)
@@ -77,9 +77,6 @@ class uBasicChrom(object):
 	def add_random_sites(self, size, count, sigma=0):
 		self.lib.addNRandomSite_Chrom(self.obj, size,count,sigma)
 
-	def count(self):
-		return self.lib.count(self.obj)
-
 	def get_overlapping(self, otherChrom, overlapType = "OVERLAP_PARTIAL"):
 		toReturn = uBasicChrom()
 		toReturn.obj = self.lib.getOverlappingChrom(self.obj, otherChrom.obj, overlapType)
@@ -108,7 +105,6 @@ class uBasicChrom(object):
 
 	def get_overlapping_count_region(self, start, end, overlapType = "OVERLAP_PARTIAL"):
 		return self.lib.getOverlappingCountRegion(self.obj, start, end, overlapType)
-
 
 	def get_subset_count(self,start,end):
 		return self.lib.getSubsetCount_basicChrom(self.obj, start, end)
@@ -142,7 +138,6 @@ class uBasicChrom(object):
 
 
 def subsetTests():
-
 	chrom = uBasicChrom()
 	chrom.sort_sites()
 	chrom.get_subset(1000,2000)
@@ -352,6 +347,7 @@ def ManyTests():
 #	print "get_not_overlapCount: " + str(chromNotOverlap1.get_not_overlapping_count(chromNotOverlap5))
 if __name__=="__main__":
 	subsetTests()
+	ManyTests()
 
 
 

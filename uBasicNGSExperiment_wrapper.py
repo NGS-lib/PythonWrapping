@@ -48,10 +48,10 @@ class uBasicExp(object):
 	def add_data_chrom(self, data):
 		self.libNGS.addDataChrom_basicExperiment(self.obj,data.obj)
 
-	def load_with_parser(self, parser,count):
+	def load_with_parser(self, parser,count=0):
 		self.libNGS.loadWithParser_basicExperiment(self.obj,parser.obj,count)
 
-	def load_with_parser_path(self, path,type,count):
+	def load_with_parser_path(self, path,type,count=0):
 		self.libNGS.loadPathWithParser_basicExperiment(self.obj,path,type,count)
 
 	def infer_chr_size(self):

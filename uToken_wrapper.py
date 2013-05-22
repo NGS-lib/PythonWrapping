@@ -19,12 +19,12 @@ class uToken:
     def print_token(self):
         libNGS.print_token(self.obj)
 
-    def is_param_set(self, param, pos):
+    def is_param_set(self, param, pos=0):
         return libNGS.isParamSet(self.obj,param, pos)
     def param_count(self, param):
         return libNGS.paramCount(self.obj,param)
 
-    def get_param(self,param,pos):
+    def get_param(self,param,pos=0):
     	libNGS.getParam.restype=c_char_p
     	return libNGS.getParam(self.obj,param,pos)
 

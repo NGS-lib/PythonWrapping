@@ -111,11 +111,8 @@ extern "C" {
 	}
 	// This throw a param_throw for some reason...
 	void addNRandomSite_Chrom(uBasicNGSChrom* chrom, int size, int count, int sigma) {
-		cout <<"RD";
 		std::random_device rd;
-		cout <<"Before";
 		std::mt19937 gen(rd());
-		cout <<"Calling";
 		chrom->addNRandomSite(size, count, gen, sigma);
 	}
 
@@ -232,18 +229,44 @@ extern "C" {
 		}
 	}
 
-    /**< Wrap getSubset */
-    uBasicNGSChrom* getSubset_basicChrom(uBasicNGSChrom* pChrom,int pStart, int pEnd)
+  /**< Wrap sortSites */
+    void sortSites_basicChrom(uBasicNGSChrom* pChrom)
+    {
+        pChrom->sortSites();
+    }
+
+	 /**< Wrap getSubset */
+    uBasicNGSChrom* getSubset_basicChrom(uBasicNGSChrom* pChrom, int pStart, int pEnd)
     {
         uBasicNGSChrom* returnChrom = new uBasicNGSChrom();
         *returnChrom= ( pChrom->getSubset(pStart,pEnd) );
         return returnChrom;
     }
+    /**< getSubsetCOunt */
+    long int getSubsetCount_basicChrom(uBasicNGSChrom* pChrom, int pStart, int pEnd)
+    {
+        return (pChrom->getSubsetCount(pStart,pEnd));
+    }
+
     /**< Wraps removeSubsetre */
-    uBasicNGSChrom* removeSubset_basicChrom(uBasicNGSChrom* pChrom, int pStart, int pEnd)
+    uBasicNGSChrom* removeSubset_basicChrom(uBasicNGSChrom* pChrom,char* pChr, int pStart, int pEnd)
     {
         uBasicNGSChrom* returnChrom = new uBasicNGSChrom();
-        *returnChrom= ( pExperiment->removeSubset(pStart,pEnd) );
+        *returnChrom= ( pChrom->removeSubset(pStart,pEnd) );
+        return returnChrom;
+    }
+     /**< Wraps getDistinct(string, start, end */
+    uBasicNGSChrom* getDistinct_basicChrom(uBasicNGSChrom* pChrom,char* pChr, int pStart, int pEnd)
+    {
+        uBasicNGSChrom* returnChrom = new uBasicNGSChrom();
+        *returnChrom= pChrom->getDistinct(pStart,pEnd);
+        return returnChrom;
+    }
+    /**< Wraps removeDistinct(string, start, end */
+    uBasicNGSChrom* removeDistinct_basicChrom(uBasicNGSChrom* pChrom,char* pChr, int pStart, int pEnd)
+    {
+        uBasicNGSChrom* returnChrom = new uBasicNGSChrom();
+        *returnChrom= pChrom->removeDistinct(pStart,pEnd);
         return returnChrom;
     }
 
