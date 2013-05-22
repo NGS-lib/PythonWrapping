@@ -1,5 +1,5 @@
 NGSPATH?=/usr/lib
-SHARED_NGS=$(LIBPATH)/libNGS.so
+SHARED_NGS=$(NGSPATH)/libNGS.so
 GXX=g++
 NGS_INGLUDE=-s $(SHARED_NGS)
 CFLAGS=-O3 -Wall -std=c++11 -c -fPIC
