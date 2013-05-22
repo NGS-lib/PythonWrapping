@@ -30,7 +30,7 @@ class uParser:
 
 
 if __name__=="__main__":
-    A = uParser("/home/local/USHERBROOKE/nora2001/Work/class/NGS_testing/data/BED/bedH2AZ.bed","BED")
+    A = uParser("data/sample.bed","BED")
     B = uToken()
     B = A.get_next_entry()
     print A.eof()
@@ -42,8 +42,8 @@ if __name__=="__main__":
         print (B.get_param("CHR",0))
     print A.get_previous_raw()
     print A.get_unformated_header()
-    print "BAM"
-    A = uParser("/home/local/USHERBROOKE/nora2001/Work/class/NGS_testing/data/BAM/H2AZ.bam","BAM")
+    print "SAM"
+    A = uParser("data/sample.sam","SAM")
     B = uToken()
     B = A.get_next_entry()
     print A.eof()

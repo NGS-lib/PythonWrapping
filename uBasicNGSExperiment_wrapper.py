@@ -120,18 +120,18 @@ class uBasicExp(object):
 
 
 def returnChromTests():
-	
-	bedParser = uParser("/home/local/USHERBROOKE/nora2001/Work/class/NGS_testing/data/BED/bedH2AZ.bed","BED")
+	#not finished
+	bedParser = uParser("data/sample.bed","BED")
 	A = uBasicExp()
 	A.load_with_parser(bedParser,5)
-	achrom= get_subset
+	#achrom= get_subset
 	
 
 def firstTests():
 	from uBasicNGS_wrapper import uBasic
 	from uParser_wrapper import uParser
 	from uWriter_Wrapper import uWriter
-	bedParser = uParser("/home/local/USHERBROOKE/nora2001/Work/class/NGS_testing/data/BED/bedH2AZ.bed","BED")
+	bedParser = uParser("data/sample.bed","BED")
 	print "Make empty BasicExp"
 	A = uBasicExp()
 	A.sort_sites()
@@ -161,7 +161,7 @@ def firstTests():
 	print "Test Load With Parser"
 	A.load_with_parser(bedParser,5)
 	print A.count()
-	A.load_with_parser_path("/home/local/USHERBROOKE/nora2001/Work/class/NGS_testing/data/BED/bedH2AZ.bed","BED",3)
+	A.load_with_parser_path("data/sample.bed","BED",3)
 	print A.count()
 	writer= uWriter("","BEDGRAPH")
 	
@@ -181,7 +181,7 @@ def firstTests():
 	A.write_with_writer(writer)
 
 	print "reloading"
-	A.load_with_parser_path("/home/local/USHERBROOKE/nora2001/Work/class/NGS_testing/data/BED/bedH2AZ.bed","BED",0)
+	A.load_with_parser_path("data/sample.bed","BED",0)
 	print "before subset"
 	A.sort_sites()
 	A.write_with_writer(writer)
@@ -203,12 +203,12 @@ def firstTests():
 
 def secondTests():
 	writer= uWriter("","BEDGRAPH")
-	bedParser = uParser("/home/local/USHERBROOKE/nora2001/Work/class/NGS_testing/data/BED/bedH2AZ.bed","BED")
+	bedParser = uParser("data/sample.bed","BED")
 	A = uBasicExp()
 	A.load_with_parser(bedParser,0)
 	A.write_with_writer(writer)
 	C = uBasicExp()
-	bedParser = uParser("/home/local/USHERBROOKE/nora2001/Work/class/NGS_testing/data/BED/bedH2AZ.bed","BED")
+	bedParser = uParser("data/sample.bed","BED")
 	C.load_with_parser(bedParser,0)
 	C.removeChr("chr2")
 	C.write_with_writer
@@ -223,7 +223,7 @@ def secondTests():
 	#Need to test
 	#get_overlapping_from_chrom(self,chrom):
 	print "reset"
-	bedParser = uParser("/home/local/USHERBROOKE/nora2001/Work/class/NGS_testing/data/BED/bedH2AZ.bed","BED")
+	bedParser = uParser("data/sample.bed","BED")
 	A = uBasicExp()
 	A.load_with_parser(bedParser,0)
 	A.write_with_writer(writer)
@@ -233,7 +233,7 @@ def secondTests():
 	A.remove_distinct("chr20",250000, 257700)
 	A.write_with_writer(writer)
 	print "reset"
-	bedParser = uParser("/home/local/USHERBROOKE/nora2001/Work/class/NGS_testing/data/BED/bedH2AZ.bed","BED")
+	bedParser = uParser("data/sample.bed","BED")
 	A = uBasicExp()
 	A.load_with_parser(bedParser,0)
 	print "after getDistinct"
@@ -246,7 +246,6 @@ def secondTests():
 	print A.get_subset_count("chr22",250000, 257700)
 	deleteA= uBasic()
 if __name__=="__main__":
-	print "These tests will fail. Please manually point the lines loading with a Parser to a valid bed file
 	firstTests()
 	secondTests()
 	

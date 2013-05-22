@@ -25,16 +25,14 @@ class uWriter:
 if __name__=="__main__":
     from uParser_wrapper import uParser
 
-    print "Loading a file, manually adjust to a local BAM file or will fail "
-    bamParser = uParser("/home/local/USHERBROOKE/nora2001/Work/class/NGS_testing/data/BAM/H2AZ.bam","BAM")
+    samParser = uParser("data/sample.sam","SAM")
     bed6writer = uWriter("","BED6")
     someToken = uToken()
-    print "Get first entry and write to standard output in bed6"
-    someToken = bamParser.get_next_entry()
+    print "Get first entry and write to standard output in bed6 to current.txt"
+    someToken = samParser.get_next_entry()
     bed6writer.write_token(someToken)
     bed6writer = uWriter("current.txt","BED6")
-    bed6writer =bamParser.get_next_entry()
-    #while (A.eof()==0):
-    #    C.write_token(A.get_next_entry())
+    bed6writer.write_token(samParser.get_next_entry())
+
        
     
