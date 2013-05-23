@@ -1,8 +1,9 @@
 NGSPATH?=/usr/lib
+NGSINCLUDEPATH?=/usr/include
 SHARED_NGS=$(NGSPATH)/libNGS.so
 GXX=g++
 NGS_INGLUDE=-s $(SHARED_NGS)
-CFLAGS=-O3 -Wall -std=c++11 -c -fPIC
+CFLAGS=-O3 -Wall -std=c++11 -c -fPIC -I $(NGSINCLUDEPATH)/NGS -I $(NGSINCLUDEPATH)
 LFLAGS=-shared
 
 OBJECTS+=uBasicNGS_wrapper.o
