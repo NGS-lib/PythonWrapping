@@ -1,6 +1,6 @@
 from ctypes import *
 import os
-from uToken_wrapper import uToken
+from uToken import uToken
 
 class uWriter:
 
