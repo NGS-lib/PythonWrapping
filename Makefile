@@ -1,7 +1,13 @@
-GXX=g++
-NGS_INGLUDE=-LNGS
-CFLAGS=-O3 -Wall -std=c++11 -c -fPIC
+NGSPATH?=/usr/lib
+NGSINCLUDEPATH?=/usr/include
+SHARED_NGS=$(NGSPATH)/libNGS.so
+NGS_INGLUDE=-s $(SHARED_NGS)
+CFLAGS=-O3 -Wall -std=c++11 -c -fPIC -I $(NGSINCLUDEPATH)/NGS -I $(NGSINCLUDEPATH)
 LFLAGS=-shared -Wl,-soname,$(TARGET) -lz
+
+GXX=g++
+
+
 
 OBJECTS+=uBasicNGS_wrapper.o
 OBJECTS+=uBasicNGSChrom_wrapper.o
