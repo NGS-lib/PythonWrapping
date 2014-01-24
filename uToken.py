@@ -8,8 +8,8 @@ import os
 
 class uToken:
     def __init__(self):
-	self.libNGS = cdll.LoadLibrary(os.environ.get('NGSWRAPPERLIB'))
-        self.obj = self.libNGS.new_token()
+	   self.libNGS = cdll.LoadLibrary(os.environ.get('NGSWRAPPERLIB'))
+        #self.obj = self.libNGS.new_token()
 
     def __del__(self):
     	self.libNGS.delete_token(self.obj)

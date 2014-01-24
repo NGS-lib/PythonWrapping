@@ -6,8 +6,8 @@
 import ctypes
 from ctypes import *
 import os
-from uParser_wrapper import *
-from uWriter_Wrapper import *
+from uParser import *
+from uWriter import *
 
 class uBasic(object):
 	def __init__(self, chr="", start=1, end=None, strand=None, score=None):
