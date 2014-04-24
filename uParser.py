@@ -30,6 +30,20 @@ class uParser:
 
 
 if __name__=="__main__":
+    
+
+
+    #Leak text,t his should crash
+
+    parser = uParser("/home/alexei/Documents/data/peDAta/BAM/wgEncodeBroadHistoneGm12878H3k04me3StdAlnRep2V2.bam","BAM")
+    while (parser.eof()==0):
+        #a =0
+        someToken = parser.get_next_entry()
+        chr = someToken.get_param("CHR")
+        #print (chr)
+
+
+
     A = uParser("/home/local/USHERBROOKE/nora2001/Work/class/NGS_testing/data/BED/bedH2AZ.bed","BED")
     B = uToken()
     B = A.get_next_entry()
