@@ -14,7 +14,7 @@ extern "C"{
 	}
 	void delete_token(uToken* pToken){
 		delete pToken;
-		pToken = NULL;
+		//pToken = NULL;
 	}
 
     bool isParamSet(uToken* pToken, char* pParam, int pPos)
@@ -31,12 +31,18 @@ extern "C"{
         std::string str;
         str=( pToken->getParam(pToken->convertStringToTokenParam(pParam),pPos) );
 
-        char * writable = new char[str.size() + 1];
+        //char * writable = new char[str.size() + 1];
+        char *writable = static_cast<char *>(malloc(sizeof(char) * ( str.size() + 1 )));
         std::copy(str.begin(), str.end(), writable);
         writable[str.size()] = '\0'; // don't forget the terminating 0
         return writable;
     }
 
+
+    void free_char(char* char_array){
+        //std::cout<<"HIHIHIHIHIHIHIHI\n";
+         //   free(char_array);
+        }
 
 }
 
