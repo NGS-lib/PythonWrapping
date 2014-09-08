@@ -17,8 +17,18 @@ extern "C"{
 		pParser = NULL;
 	}
 
-    bool eof_parser(uParser* pParser){
-        return pParser->eof();
+    int eof_parser(uParser* pParser){
+
+       // bool mytest;
+       // std::cout<<pParser->eof()<<"\n";
+       // mytest=pParser->eof();
+        //std::cout<<mytest<<"\n";
+        //return true;
+        if (pParser->eof()==true)
+            return 1;
+        else
+            return 0;
+        //return pParser->eof();
     }
     uToken* getNextEntry_parser(uParser* pParser){
 

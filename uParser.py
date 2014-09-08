@@ -30,35 +30,10 @@ class uParser:
 
 
 if __name__=="__main__":
-    
 
-
-    #Leak text,t his should crash
-
-    parser = uParser("/home/alexei/Documents/data/peDAta/BAM/wgEncodeBroadHistoneGm12878H3k04me3StdAlnRep2V2.bam","BAM")
-    while (parser.eof()==0):
-        #a =0
-        someToken = parser.get_next_entry()
-        chr = someToken.get_param("CHR")
-        #print (chr)
-
-
-
-    A = uParser("/home/local/USHERBROOKE/nora2001/Work/class/NGS_testing/data/BED/bedH2AZ.bed","BED")
-    B = uToken()
-    B = A.get_next_entry()
+    A = uParser("test.bw","BW")
     print A.eof()
-    while (A.eof()==0):
-        B = A.get_next_entry()
-    print A.eof()
-    
-    if (B.is_param_set("CHR",0)):
-        print (B.get_param("CHR",0))
-    print A.get_previous_raw()
-    print A.get_unformated_header()
-    print "BAM"
-    A = uParser("/home/local/USHERBROOKE/nora2001/Work/class/NGS_testing/data/BAM/H2AZ.bam","BAM")
-    B = uToken()
+    #B = uToken()
     B = A.get_next_entry()
     print A.eof()
     Counter=0
@@ -67,11 +42,7 @@ if __name__=="__main__":
         Counter=Counter+1
         if (Counter%100000==0):
             print Counter
-        if (Counter==300000):
-            break
+        #if (Counter==300000):
+        #   break
     print A.eof()
-    
-    if (B.is_param_set("CHR",0)):
-        print (B.get_param("CHR",0))
-    print A.get_previous_raw()
-    print A.get_unformated_header()
+
